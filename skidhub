@@ -33,7 +33,7 @@ local SolarisLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/ro
       loadstring(game:HttpGet("https://raw.githubusercontent.com/roburox/s1mple/main/scripts/rejoin"))()
    end)
   
-  sec:Button("Kill Roblox", function()
+  sec:Button("leave game", function()
       game:Shutdown()
    end)
 local aimbot = win:Tab("Aimbot")
@@ -621,7 +621,7 @@ sec:Button("Dex v4", function()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/AnAvaragelilmemer/AnAvaragelilmemer/main/dexv4"))()
 end)
 
-sec:Button("Dex V3', function()
+sec:Button("Dex V3", function()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/Babyhamsta/RBLX_Scripts/main/Universal/BypassedDarkDexV3.lua", true))()
 end)
 
@@ -633,16 +633,20 @@ sec:Button("Infinite Yield", function()
 loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
 end)
 
-sec:Button("lunar hub, function()
+sec:Button("lunar hub", function()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/probablYnicKxD/ProjectLunar/main/LunarHub/Source.lua"))()
 end)
 
-sec:Button("Vape V4, function()
+sec:Button("Vape V4", function()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/7GrandDadPGN/VapeV4ForRoblox/main/NewMainScript.lua", true))()
 end)
 
-sec:Button("Sape, function()
+sec:Button("Sape", function()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/vodxn/sape/main/Initiate.lua"))()
+end)
+
+sec:Button("Doors GUI v1.2", function()
+loadstring("game:HttpGet("https://raw.githubusercontent.com/centerepic/script-host/main/doors_gui.lua"))()
 end)
 --[[
 	see, its skidded, how are you beliving me its not skidded?
