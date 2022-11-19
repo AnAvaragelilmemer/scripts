@@ -612,6 +612,10 @@ sec:Button("unfair hub", function()
 loadstring(game:HttpGet(('https://raw.githubusercontent.com/rblxscriptsnet/unfair/main/rblxhub.lua'),true))()
 end)
 
+sec:Button("Vision hub", function()
+SolarisLib:Notification("Notification", "Key : https://discord.gg/visionhub")
+ loadstring(game:HttpGetAsync('https://visionhub.dev/loader.lua))()
+ end)
 --[[
 	see, its skidded, how are you beliving me its not skidded?
 	piss off
