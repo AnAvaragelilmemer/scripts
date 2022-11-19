@@ -4,7 +4,7 @@ local SolarisLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/ro
 
    local win = SolarisLib:New({
      Name = "SkidHub, now with pissware",
-     FolderToSave = "SkidHub"
+     
    })
 
    local main = win:Tab("Player")
