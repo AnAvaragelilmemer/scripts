@@ -4,7 +4,7 @@ local SolarisLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/ro
 
    local win = SolarisLib:New({
      Name = "SkidHub, now with pissware",
-     
+     FolderToSave = "SkidHub"
    })
 
    local main = win:Tab("Player")
@@ -677,6 +677,14 @@ end)
 --[[
 	see, its skidded, how are you beliving me its not skidded?
 	piss off
+	supported executors
+	krnl
+	fluxus
+	comet
+	scriptware
+	synapse x
+	unsupported executors
+	oxygen u
 ]]--
 
 
