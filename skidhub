@@ -231,7 +231,7 @@ print("coming soon!")
 end)
 
 
-local sec = main:Section("Animation hubs")
+local sec = main:Section("Animation scripts")
 
 sec:Button("Pendulum Hub V5", function()
 loadstring(game:HttpGet(("https://raw.githubusercontent.com/Tescalus/Pendulum-Hubs-Source/main/Pendulum%20Hub%20V5.lua"),true))()
@@ -240,7 +240,7 @@ end)
 -- more coming soon...
 
 
-local sec = main:Section("Reposted")
+local sec = main:Section("scripts")
 
 sec:Button("Ez hub", function()
       loadstring(game:HttpGet(('https://raw.githubusercontent.com/debug420/Ez-Industries-Launcher-Data/master/Launcher.lua'),true))()
@@ -616,6 +616,34 @@ sec:Button("Vision hub", function()
 SolarisLib:Notification("Notification", "Key : https://discord.gg/visionhub")
  loadstring(game:HttpGetAsync('https://visionhub.dev/loader.lua'))()
  end)
+ 
+sec:Button("Dex v4", function()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/AnAvaragelilmemer/AnAvaragelilmemer/main/dexv4"))()
+end)
+
+sec:Button("Dex V3', function()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Babyhamsta/RBLX_Scripts/main/Universal/BypassedDarkDexV3.lua", true))()
+end)
+
+sec:Button("BetterBypasser", function()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/daddysyn/synergy/additional/betterbypasser",true))()
+end)
+
+sec:Button("Infinite Yield", function()
+loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
+end)
+
+sec:Button("lunar hub, function()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/probablYnicKxD/ProjectLunar/main/LunarHub/Source.lua"))()
+end)
+
+sec:Button("Vape V4, function()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/7GrandDadPGN/VapeV4ForRoblox/main/NewMainScript.lua", true))()
+end)
+
+sec:Button("Sape, function()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/vodxn/sape/main/Initiate.lua"))()
+end)
 --[[
 	see, its skidded, how are you beliving me its not skidded?
 	piss off
