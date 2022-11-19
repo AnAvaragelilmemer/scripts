@@ -11,6 +11,8 @@ Home:addLabel("Welcome to PissWare.","The Least Advanced script hub, Completely 
 
 Home:addLabel("Updates","Updates to keep pissware still swag")
 
+Home:addLabel("gone", "pissware is not getting updates anymore, its too bad.")
+
 Home:addLabel("Version 1.1","i have added some scripts, press scripts to see them")
 
 Home:addLabel("Welcome, PissWare!","Pissware is created on 13/11/22 9:27 PM, made by drmr")
