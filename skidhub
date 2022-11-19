@@ -666,6 +666,14 @@ loadstring(
   game:HttpGetAsync("https://raw.githubusercontent.com/richie0866/orca/master/public/latest.lua")
 )()
 end)
+
+sec:Button("flood gui V3", function()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/ImMejor35/Flood-GUI/main/Flood%20GUI%20v3"))()
+end)
+
+sec:Button("Table hub", function()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/AltsegoD/scripts/egoD/tablekhoc.lua"))()
+end)
 --[[
 	see, its skidded, how are you beliving me its not skidded?
 	piss off
