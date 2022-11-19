@@ -1,0 +1,126 @@
+local GUI = loadstring(game:HttpGet("https://raw.githubusercontent.com/bloodball/-back-ups-for-libs/main/aaaa"))()
+
+local UI = GUI:CreateWindow("Pissware","Version 1.1")
+
+local Home = UI:addPage("Home",1,true,6)
+local LP = UI:addPage("Main",2,false,6)
+local scr = UI:addPage("Scripts",3,false,6)
+local credts = UI:addPage("Credits",4,false,6)
+
+Home:addLabel("Welcome to PissWare.","The Least Advanced script hub, Completely detectable.")
+
+Home:addLabel("Updates","Updates to keep pissware still swag")
+
+Home:addLabel("Version 1.1","i have added some scripts, press scripts to see them")
+
+Home:addLabel("Welcome, PissWare!","Pissware is created on 13/11/22 9:27 PM, made by drmr")
+
+-- Label
+
+LP:addLabel("Main","The trio")
+
+-- goodies
+
+LP:addTextBox("WalkSpeed, 16 is default","Number here",function(value)
+    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = value
+end)
+
+
+LP:addTextBox("Jump Power, 50 is default","Number here",function(value)
+    game.Players.LocalPlayer.Character.Humanoid.JumpPower = value
+end)
+
+LP:addTextBox("Gravity, 196 is default", "Number here", function(value)
+    game.Workspace.Gravity = value
+end)
+
+LP:addLabel("Extras","Stuffs that idk where i put in")
+
+LP:addButton("Reset Charater",function()
+    game.Players.LocalPlayer.Character.Humanoid.Health = 0
+end)
+
+LP:addButton("Rejoin",function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/roburox/s1mple/main/scripts/rejoin"))()
+end)
+
+LP:addButton("Server hop", function()
+    loadstring(game:HttpGet(("https://raw.githubusercontent.com/AnAvaragelilmemer/AnAvaragelilmemer/main/serverhop"),true))()
+end)
+
+LP:addButton("kill roblox", function()
+  game:Shutdown()
+end)
+
+scr:addLabel("My scripts","are bad")
+
+scr:addButton("SkidHub", function()
+    loadstring(game:HttpGet(("https://pastebin.com/raw/2VxT4RKj"),true))()
+end)
+
+scr:addLabel("krnl scripts","contains the community scripts")
+
+scr:addButton("Infinite yield", function()
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
+end)
+
+scr:addButton("Cmd X", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/CMD-X/CMD-X/master/Source",true))()
+end)
+
+scr:addButton("Secure Dex", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/Babyhamsta/RBLX_Scripts/main/Universal/BypassedDarkDexV3.lua", true))()
+end)
+
+scr:addButton("Hydroxide", function()
+local owner = "Upbolt"
+local branch = "revision"
+
+local function webImport(file)
+    return loadstring(game:HttpGetAsync(("https://raw.githubusercontent.com/%s/Hydroxide/%s/%s.lua"):format(owner, branch, file)), file .. '.lua')()
+end
+
+webImport("init")
+webImport("ui/main")
+end)
+
+scr:addButton("Orca", function()
+  loadstring(
+  game:HttpGetAsync("https://raw.githubusercontent.com/richie0866/orca/master/public/latest.lua")
+)()
+end)
+
+scr:addButton("Domain X", function()
+   loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/DomainX/main/source',true))()
+end)
+
+scr:addLabel("scripts","Has Reposted scripts, credit goes to the owners of the scripts")
+
+scr:addButton("GOODWILL decaying winter", function()
+   loadstring(game:HttpGet(('https://raw.githubusercontent.com/Aidez/decaying_winter/main/GOODWILL_COMMAND_SCRIPT'),true))()
+end)
+
+--steroids for m- roblox
+scr:addButton("Vape V4", function()
+   loadstring(game:HttpGet("https://raw.githubusercontent.com/7GrandDadPGN/VapeV4ForRoblox/main/NewMainScript.lua", true))()
+end)
+
+scr:addButton("Septex prison life", function()
+  loadstring(game:HttpGet("https://raw.githubusercontent.com/XTheMasterX/Scripts/Main/PrisonLife"))()
+end)
+
+scr:addButton("Unfair hub", function()
+  loadstring(game:HttpGet(('https://raw.githubusercontent.com/rblxscriptsnet/unfair/main/rblxhub.lua'),true))()
+end)
+
+scr:addButton("Doors gui", function()
+  loadstring(game:HttpGet(("https://raw.githubusercontent.com/centerepic/script-host/main/doors_gui.lua"),true))()
+end)
+
+scr:addButton("lunarhub", function()
+  loadstring(game:HttpGet("https://raw.githubusercontent.com/probablYnicKxD/ProjectLunar/main/LunarHub/Source.lua"))()
+end)
+
+credts:addButton("credits to 'a skid' for making this script", function()
+	print("the um um")
+end)
