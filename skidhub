@@ -646,7 +646,7 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/vodxn/sape/main/Initi
 end)
 
 sec:Button("Doors GUI v1.2", function()
-loadstring("game:HttpGet("https://raw.githubusercontent.com/centerepic/script-host/main/doors_gui.lua"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/centerepic/script-host/main/doors_gui.lua"))()
 end)
 --[[
 	see, its skidded, how are you beliving me its not skidded?
