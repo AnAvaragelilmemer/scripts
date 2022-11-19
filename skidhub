@@ -643,11 +643,11 @@ sec:Button("GOODWILL decaying winter script", function()
 loadstring(game:HttpGet(('https://raw.githubusercontent.com/Aidez/decaying_winter/main/GOODWILL_COMMAND_SCRIPT'),true))()
 end)
 
-sec:Button("septex's prison life admin")
+sec:Button("septex's prison life admin", function()
 loadstring(game:HttpGet(('https://raw.githubusercontent.com/XTheMasterX/Scripts/Main/PrisonLife'),true))()
 end)
 
-sec:Button("funky friday auto player")
+sec:Button("funky friday auto player", function()
 local vu = game:GetService("VirtualUser")
 game:GetService("Players").LocalPlayer.Idled:connect(function()
    vu:Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
