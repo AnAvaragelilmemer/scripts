@@ -1,0 +1,621 @@
+repeat wait() until game:IsLoaded()
+
+local SolarisLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/roburox/s1mple/main/SolarisLib"))()
+
+   local win = SolarisLib:New({
+     Name = "SkidHub, now with pissware",
+     FolderToSave = "SkidHub"
+   })
+
+   local main = win:Tab("Player")
+
+   local sec = main:Section("Modifications")
+
+   local slider = sec:Slider("Walkspeed", 1,500,16,1,"Slider", function(v)
+     game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = v
+   end)
+   local slider = sec:Slider("Jumppower", 1,1000,50,1,"Slider", function(v)
+     game.Players.LocalPlayer.Character.Humanoid.JumpPower = v
+   end)
+   local slider = sec:Slider("Gravity", 1,1000,196.2,1,"Slider", function(v)
+     game.Workspace.Gravity = v
+   end)
+
+   local sec = main:Section("Extras")
+   sec:Button("Respawn", function()
+      loadstring(game:HttpGet("https://raw.githubusercontent.com/roburox/s1mple/main/scripts/respawn"))()
+   end)
+   sec:Button("Rejoin", function()
+      loadstring(game:HttpGet("https://raw.githubusercontent.com/roburox/s1mple/main/scripts/rejoin"))()
+   end)
+
+  sec:Button("Join lowest player server", function()
+      loadstring(game:HttpGet("https://raw.githubusercontent.com/roburox/s1mple/main/scripts/rejoin"))()
+   end)
+  
+  sec:Button("Kill Roblox", function()
+      game:Shutdown()
+   end)
+local aimbot = win:Tab("Aimbot")
+
+   local aim = aimbot:Section("Aimbot")
+   local FOV = aimbot:Section("FOV Ring Modifications")
+
+   aim:Button("Aimbot", function()
+   SolarisLib:Notification("Loaded", "Press K to destroy the aimbot") 
+       --draw fov ring
+       _G.FOVring = Drawing.new("Circle")
+       --loop fov ring properties
+       game:GetService"RunService".RenderStepped:Connect(function()
+       _G.FOVring.Visible = true
+       _G.FOVring.Thickness = 2
+       _G.FOVring.Radius = _G.fovringslider
+       _G.FOVring.Transparency = 1
+       _G.FOVring.Color = _G.fovColorPicker
+       _G.FOVring.Position = workspace.CurrentCamera.ViewportSize/2
+   end)
+       
+       local RunService = game:GetService("RunService")
+       
+       local function getClosest(cframe)
+          local ray = Ray.new(cframe.Position, cframe.LookVector).Unit
+          
+          local target = nil
+          local mag = math.huge
+          
+          for i,v in pairs(game.Players:GetPlayers()) do
+              if v.Character and v.Character:FindFirstChild("Head") and v.Character:FindFirstChild("Humanoid") and v.Character:FindFirstChild("HumanoidRootPart") and v ~= game.Players.LocalPlayer and (v.Team ~= game.Players.LocalPlayer.Team or (not _G.tcToggle)) then
+                  local magBuf = (v.Character.Head.Position - ray:ClosestPoint(v.Character.Head.Position)).Magnitude
+                  
+                  if magBuf < mag then
+                      mag = magBuf
+                      target = v
+                  end
+              end
+          end
+          
+          return target
+       end
+       
+       loop = RunService.RenderStepped:Connect(function()
+          local UserInputService = game:GetService("UserInputService")
+          local pressed = --[[UserInputService:IsKeyDown(Enum.KeyCode.E)]] UserInputService:IsMouseButtonPressed(Enum.UserInputType.MouseButton2)
+          local localPlay = game.Players.localPlayer.Character
+          local cam = workspace.CurrentCamera
+          local zz = workspace.CurrentCamera.ViewportSize/2
+          
+          if pressed then
+              local Line = Drawing.new("Line")
+              local curTar = getClosest(cam.CFrame)
+              local ssHeadPoint = cam:WorldToScreenPoint(curTar.Character.Head.Position)
+              ssHeadPoint = Vector2.new(ssHeadPoint.X, ssHeadPoint.Y)
+              if (ssHeadPoint - zz).Magnitude < _G.fovringslider then
+                  workspace.CurrentCamera.CFrame = workspace.CurrentCamera.CFrame:Lerp(CFrame.new(cam.CFrame.Position, curTar.Character.Head.Position), _G.smoothingslider)
+              end
+          end
+          
+          if UserInputService:IsKeyDown(Enum.KeyCode.K) then
+              loop:Disconnect()
+              _G.FOVring:Remove()
+          end
+       end)
+   end)
+
+   local toggle = aim:Toggle("Team Check", false,"tcToggle", function(t)
+      _G.tcToggle = t
+   end)
+
+
+   local aimsmooth = aim:Slider("Smoothing", 0.1,1,0.5,0.1,"aimSlider", function(smoothingslider)
+       _G.smoothingslider = smoothingslider
+   end)
+
+   local fovslider = FOV:Slider("FOV Ring", 10,1000,150,1,"fovSlider", function(fovringslider)
+       _G.fovringslider = fovringslider
+   end)
+
+   --sec:Colorpicker(title <string>, default <color3>, flag <string>, callback <function>)
+   FOV:Colorpicker("FOV Ring Color", Color3.fromRGB(255, 128, 128),"fovColorpicker", function(t)
+      _G.fovColorPicker = t
+   end)
+
+ local visuals = win:Tab("ESP")
+
+   local espsec = visuals:Section("Utility")
+   local team = visuals:Section("Team Color")
+
+   _G.Reantheajfdfjdgse = nil
+
+   function esp()
+       _G.FriendColor = Color3.fromRGB(0, 0, 255)
+       
+       local coregui = game:GetService("CoreGui")
+       local players = game:GetService("Players")
+       local plr = players.LocalPlayer
+       
+       local highlights = {}
+       
+       function esp(target, color)
+           pcall(function()
+               if target.Character then
+                   if not highlights[target] then
+                       local highlight = Instance.new("Highlight", coregui)
+                       highlight.Name = target.Name
+                       highlight.Adornee = target.Character
+                       highlight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+                       highlight.FillColor = color
+                       highlights[target] = highlight
+                   else
+                       highlights[target].FillColor = color
+                   end
+               end
+           end)
+       end
+       
+       players.PlayerAdded:Connect(function(v)
+           v.CharacterAdded:Connect(function()
+               esp(v, _G.UseTeamColor and v.TeamColor.Color or ((plr.TeamColor == v.TeamColor) and _G.FriendColor or _G.EnemyColor))
+           end)
+       end)
+
+       players.PlayerRemoving:Connect(function(v)
+           if highlights[v] then
+               highlights[v]:Destroy()
+               highlights[v] = nil
+           end
+       end)
+       
+       for i, v in pairs(players:GetPlayers()) do
+           if v ~= plr then
+               local color = _G.UseTeamColor and v.TeamColor.Color or ((plr.TeamColor == v.TeamColor) and _G.FriendColor or _G.EnemyColor)
+                   v.CharacterAdded:Connect(function()
+                       local color = _G.UseTeamColor and v.TeamColor.Color or ((plr.TeamColor == v.TeamColor) and _G.FriendColor or _G.EnemyColor)
+                   esp(v, color)
+               end)
+               esp(v, color)
+           end
+       end
+
+       while task.wait() do
+           for i, v in pairs(highlights) do
+               local color = _G.UseTeamColor and i.TeamColor.Color or ((plr.TeamColor == i.TeamColor) and _G.FriendColor or _G.EnemyColor)
+               v.FillColor = color
+           end
+       end
+   end
+
+   local toggle = espsec:Toggle("ESP", false,"espToggle", function(togglebool)
+       if togglebool then
+           esp()
+           for i,v in pairs(game.CoreGui:GetChildren()) do
+               if v.ClassName == "Highlight" then
+                   v.Enabled = true
+               end
+           end
+       end
+       
+       if togglebool == false then
+           for i,v in pairs(game.CoreGui:GetChildren()) do
+               if v.ClassName == "Highlight" then
+                   v.Enabled = false
+               end
+           end
+       end
+   end)
+
+
+
+   local toggle = team:Toggle("Use Current Team Colors", false,"esptcToggle", function(togglebool)
+       _G.UseTeamColor = togglebool
+   end)
+
+   local enemyColorpicker = team:Colorpicker("Enemy Color", Color3.fromRGB(255, 0, 0),"enemyColorPicker", function(v)
+       _G.EnemyColor = v
+   end)
+
+
+   espsec:Button("Highlight ESP", function()
+      loadstring(game:HttpGet("https://fluxteam.net/scripts/NewESP.lua", true))()
+   end)
+
+
+local main = win:Tab("Scripts")
+
+   local sec = main:Section("My script")
+
+sec:Button("2dhub v1.5", function()
+      loadstring(game:HttpGet("https://pastebin.com/raw/vcavAQzw"))()
+   end)
+sec:Button("pisshub coming soon", function()
+print("coming soon!")
+end)
+
+
+local sec = main:Section("Animation hubs")
+
+sec:Button("Pendulum Hub V5", function()
+loadstring(game:HttpGet(("https://raw.githubusercontent.com/Tescalus/Pendulum-Hubs-Source/main/Pendulum%20Hub%20V5.lua"),true))()
+end)
+
+-- more coming soon...
+
+
+local sec = main:Section("Reposted")
+
+sec:Button("Ez hub", function()
+      loadstring(game:HttpGet(('https://raw.githubusercontent.com/debug420/Ez-Industries-Launcher-Data/master/Launcher.lua'),true))()
+   end)
+
+sec:Button("Dark Ware", function()
+      loadstring(game:HttpGet(("https://raw.githubusercontent.com/Yarik312/DarkWare/main/MainLoader"), true))()
+   end)
+
+sec:Button("Owl hub", function()
+      loadstring(game:HttpGet("https://raw.githubusercontent.com/CriShoux/OwlHub/master/OwlHub.txt"))();
+   end)
+
+sec:Button("simplity", function()
+      loadstring(game:HttpGet("https://raw.githubusercontent.com/roburox/s1mple/main/load.lua"))()
+   end)
+
+sec:Button("homerware hub v2", function()
+     local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
+local Window = Library.CreateLib("HomerWare Hub", "BloodTheme")
+
+--Main
+local Main = Window:NewTab("Main")
+local MainSection = Main:NewSection("Main")
+
+
+MainSection:NewButton("Marine Hub", "OP Hub", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/Hypious/Marine-Hub/main/Main"))()
+end)
+
+MainSection:NewButton("VG HUB", "Good For Simulator And fps GAMES 110+ Games", function()
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-Hub/main/V.Ghub'))()
+end)
+
+MainSection:NewButton("Fnf Script", "Best Fnf Script Ever", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/wally-rblx/funky-friday-autoplay/main/main.lua",true))()
+end)
+
+MainSection:NewButton("Piano v7", "Auto Piano V7 Needs Key", function()
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/JxcExploit/LOLKIDDO/main/AutoPlayPianoV7'))()
+end)
+
+MainSection:NewButton("Doors Script V1", "Best Needs Key", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/RegularVynixu/Vynixius/main/Doors/Script.lua"))()
+end)
+
+MainSection:NewButton("Doors Script v2", "Worse than v1 but keyless", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/OminousVibes-Exploit/Scripts/main/doors/main.lua"))()
+end)
+
+MainSection:NewButton("Infinity Yeild", "Best Admin Commands", function()
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
+end)
+
+MainSection:NewButton("Ultra Hub", "Psx Strongman Simulator ETC", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/ZaRdoOx/Ultra-Hub/main/Main"))()
+end)
+
+MainSection:NewButton("Proxima HUB", "One Of The Best Hubs In The World", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/TrixAde/Proxima-Hub/main/Main.lua"))()
+end)
+
+MainSection:NewButton("Rebirth Champions X ", "INSANELY OP", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/KrystekYTpv/Scripts/main/RebirthChampionsX.lua", true))()
+end)
+
+
+local Bedwars = Window:NewTab("Bedwars")
+local BedwarsSection = Bedwars:NewSection("Bedwars Scripts")
+
+
+BedwarsSection:NewButton("RektSky", "Op With Vape v4", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/8pmX8/rektsky4roblox/main/mainscript.lua"))()
+end)
+
+BedwarsSection:NewButton("Ape V6", "Vape v4 remastered", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/Fazedrab/ApeV6ForRoblox/main/NewMainScript.lua", true))()
+end)
+
+BedwarsSection:NewButton("Sape", "why u here get out", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/vodxn/sape/main/Initiate.lua"))()
+end)
+
+BedwarsSection:NewButton("Engoware", "Idk what to say", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/joeengo/engoware/main/Main.lua"))()
+end)
+
+BedwarsSection:NewButton("vape v4", "Main vape v4", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/7GrandDadPGN/VapeV4ForRoblox/main/NewMainScript.lua", true))()
+end)
+
+
+local Misc  = Window:NewTab("Misc")
+local MiscSection = Misc:NewSection("Misc Scripts")
+
+MiscSection:NewSlider("Speed", "SuperIdolSonic", 500, 16, function(s) -- 500 (MaxValue) | 0 (MinValue)
+    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = s
+end)
+
+MiscSection:NewSlider("HighJump", "SuperIdolSonic", 5000, 50, function(s) -- 500 (MaxValue) | 0 (MinValue)
+    game.Players.LocalPlayer.Character.Humanoid.JumpPower = s
+end)
+
+
+local Universal  = Window:NewTab("Universal")
+local UniversalSection = Universal:NewSection("Universal Scripts")
+
+UniversalSection:NewButton("Animation Changer", "Changes ur animation Not FE", function()
+    loadstring(game:HttpGet(('https://raw.githubusercontent.com/ShiroSeby/Seby-s-Lair/main/R15%20Animation%20Changer'), true))()
+end)
+
+UniversalSection:NewButton("FPS BOOSTER", "Boost FPS", function()
+-- Made by RIP#6666
+_G.Settings = {
+    Players = {
+        ["Ignore Me"] = true, -- Ignore your Character
+        ["Ignore Others"] = true -- Ignore other Characters
+    },
+    Meshes = {
+        Destroy = false, -- Destroy Meshes
+        LowDetail = true -- Low detail meshes (NOT SURE IT DOES ANYTHING)
+    },
+    Images = {
+        Invisible = true, -- Invisible Images
+        LowDetail = false, -- Low detail images (NOT SURE IT DOES ANYTHING)
+        Destroy = false, -- Destroy Images
+    },
+    Other = {
+        ["No Particles"] = true, -- Disables all ParticleEmitter, Trail, Smoke, Fire and Sparkles
+        ["No Camera Effects"] = true, -- Disables all PostEffect's (Camera/Lighting Effects)
+        ["No Explosions"] = true, -- Makes Explosion's invisible
+        ["No Clothes"] = true, -- Removes Clothing from the game
+        ["Low Water Graphics"] = true, -- Removes Water Quality
+        ["No Shadows"] = true, -- Remove Shadows
+        ["Low Rendering"] = true, -- Lower Rendering
+        ["Low Quality Parts"] = true -- Lower quality parts
+    }
+}
+loadstring(game:HttpGet("https://raw.githubusercontent.com/CasperFlyModz/discord.gg-rips/main/FPSBooster.lua"))()
+end)
+
+UniversalSection:NewButton("Auto Grammar", "Idk Why U Need This But Its Cool IG?", function()
+    shared.CustomCorrections = {
+        ["examplething12"] = "hello" -- if you say "examplething12" it will become hello
+    }
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/eosuwu/boblox/main/autogremer.lua"))()
+end)
+
+UniversalSection:NewButton("Universal Hub", "One Of The Best UIS I Have ever Seen", function()
+    loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/richie0866/orca/master/public/snapshot.lua"))()
+end)
+
+
+local Credits = Window:NewTab("Credits")
+local CreditsSection = Credits:NewSection("Credits")
+
+CreditsSection:NewTextBox("Not_zentical#4847", "No One Else Except the script owners", function(txt)
+	print(txt)
+end)
+
+
+local Setting = Window:NewTab("Setting")
+local SettingSection = Setting:NewSection("Setting")
+
+SettingSection:NewKeybind("Toggle UI", "Close/Open UI", Enum.KeyCode.BackSlash, function()
+	Library:ToggleUI()
+end)
+
+MainSection:NewButton("Smox Hub", "OP HUB!", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/SmoxHub/SmoxHub/main/Word%20Bomb"))()
+end)
+
+MainSection:NewButton("Murder Mystery 2", "OP", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/Ethanoj1/EclipseMM2/master/Script", true))()
+end)
+
+MainSection:NewButton("Kat OP GUI", "What To Say Uhm Hi", function()
+    loadstring(game:HttpGet("https://pastebin.com/raw/6rd91GZx", true))()
+end)
+
+MainSection:NewButton("Owl Hub", "Im a Owl", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/CriShoux/OwlHub/master/OwlHub.txt"))();
+end)
+
+MainSection:NewButton("Combat Warriors", "I Can combo in minecraft :(", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/SpiritXmas/Project-Hook/main/required.lua"))()
+end)
+
+end)
+
+sec:Button("Hitbox Expander", function()
+      loadstring(game:HttpGet("https://raw.githubusercontent.com/roburox/s1mple/main/scripts/hitboxexpand"))()
+   end)
+
+sec:Button("Universal Slient aim", function()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Averiias/Universal-SilentAim/main/main.lua"))()
+end)
+
+sec:Button("V.G Hub", function()
+SolarisLib:Notification("Notification", "too much games, but i will print the supported games press f9")
+print("arsenal")
+print("climb 1,000 stairs")
+print("survive the night")
+print("World//Zero")
+print("Vehicle Legends")
+print("build a boat for treasure")
+print("blox fruits")
+print("project XL")
+print("Magnet Simulator")
+print("Jailbreak")
+print("adopt me")
+print("tsunami survival")
+print("zombie rush")
+print("zombie uprising")
+print("Soda Legends")
+print("Bubble Gum Simulator")
+print("Knife Simulator")
+print("Ninja Legends")
+print("Ninja Legends 2")
+print("Dungeon Quest!")
+print("super bomb survival")
+print("shindo")
+print("mm2")
+print("natural disaster survival")
+print("elemental battlegrounds")
+print("field trip z")
+print("dragon adventures")
+print("vehicle simulator")
+print("little world")
+print("age of heros")
+print("zombies attack")
+print("muscle legends")
+print("cursed islands")
+print("KAT")
+print("Assassin")
+print("Ragdoll Engine")
+print("The floor is LAVA")
+print("Legends of speed")
+print("elemental legends")
+print("mega easy obby")
+print("taping-gods")
+print("break-in-story")
+print("the labyrinth")
+print("weaponry")
+print("SHOOT OUT!")
+print("Destruction Simulator")
+print("Trade Tower")
+print("The asylum")
+print("green vile")
+print("the maze")
+print("Tower of hell")
+print("Warrior Champions")
+print("be crushed by a speeding wall")
+print("survive the disasters! classic")
+print("Speed run 4")
+print("Timber!")
+print("demonfall")
+print("car crushers 2")
+print("da hood")
+print("wisteria")
+print("the final stand 2")
+print("pet simulator X")
+print("pet simulator")
+print("a universal time")
+print("dragon blox")
+print("Rise of nations")
+print("Specter")
+print("project-star")
+print("flee the facility")
+print("lumber tycoon 2")
+print("strongest punch simulator")
+print("meep city")
+print("counter blox")
+print("youtube simulato x")
+print("survive the killer!")
+print("your bizzare adventure")
+print("project baki 2")
+print("true piece")
+print("giant simulator")
+print("nerf strike")
+print("pet fighters simulator")
+print('super power fighting simulator')
+print('treasure quest')
+print("king legacy")
+print('legends re:written')
+print("anime simulator x")
+print("blackhawk rescue mission 5")
+print("anime dimensions simulator")
+print("the wild west")
+print("project hero")
+print("big brain simulator")
+print("tapping mania")
+print("unconventional")
+print("laundry simulator")
+print("color block")
+print("swordburst 2")
+print("pets-story")
+print("saitamania")
+print("jojo: crusaders' heaven")
+print("scp 3008")
+print("bee swarm simulator")
+print("military tycoon")
+print("base battles")
+print("fish sim")
+print("two piece")
+print("critical legends")
+print("critical legends 2")
+print("dbz adventures unleashed")
+print("rushpoint")
+print("anime cross world")
+print("demon slayer:moonrise")
+print("mimic")
+print("anime battlegrounds X")
+print("weapon fighting simulator")
+print("demon slayer burning ashes")
+print("blade quest")
+print("loomian legacy")
+print("PLS DONATE")
+print("DBZ FINAL REMASTERED")
+print("criminality")
+print(" driving empire")
+print("phantom forces")
+print("stand upright : rebooted")
+print("a hero's destiny")
+print("elemental awakening")
+print("soul war")
+print("rate my avatar")
+print("ability wars")
+print("bid battles")
+print("era of althea")
+print("tabing simulator")
+print("roblox unbreakable")
+print("evade")
+print("speed run simulator")
+print("bloxburg")
+print("anime story")
+loadstring(game:HttpGet('https://raw.githubusercontent.com/1201for/V.G-Hub/main/V.Ghub'))()
+end)
+
+sec:Button("Adminus", function()
+SolarisLib:Notification("Notification", "Key : ADMINUS-NVDodjoE press f9 for supported games")
+loadstring(game:HttpGet("https://raw.githubusercontent.com/flerci42/AdminusKeySystem/main/Obfuscated"))()
+print("Mining simulator 2")
+print("Tapping Legends X")
+print("Festival Tycoon")
+print("Collect all pets!")
+print("Tower of Hell")
+print("Tapping Simulator!")
+print("Arsenal")
+print("Ninja Legends")
+print("Build a boat for treasure")
+print("Tapper Simulator!")
+print("UNIVERSAL, aimbot etc.")
+end)
+
+sec:Button("infinite yield", function()
+loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
+end)
+
+sec:Button("awesome explorer", function()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/wally-rblx/awesome-explorer/main/source.lua"))()
+end)
+
+sec:Button("pavrus hub", function()
+loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/AlexR32/Parvus/main/Loader.lua"))()
+end)
+
+sec:Button("unfair hub", function()
+loadstring(game:HttpGet(('https://raw.githubusercontent.com/rblxscriptsnet/unfair/main/rblxhub.lua'),true))()
+end)
+
+--[[
+	see, its skidded, how are you beliving me its not skidded?
+	piss off
+]]--
+
+
+
