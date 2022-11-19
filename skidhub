@@ -614,7 +614,7 @@ end)
 
 sec:Button("Vision hub", function()
 SolarisLib:Notification("Notification", "Key : https://discord.gg/visionhub")
- loadstring(game:HttpGetAsync('https://visionhub.dev/loader.lua))()
+ loadstring(game:HttpGetAsync('https://visionhub.dev/loader.lua'))()
  end)
 --[[
 	see, its skidded, how are you beliving me its not skidded?
