@@ -226,10 +226,6 @@ local main = win:Tab("Scripts")
 sec:Button("2dhub v1.5", function()
       loadstring(game:HttpGet("https://pastebin.com/raw/vcavAQzw"))()
    end)
-sec:Button("pisshub coming soon", function()
-print("coming soon!")
-end)
-
 
 local sec = main:Section("Animation scripts")
 
