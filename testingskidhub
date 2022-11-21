@@ -9,18 +9,8 @@ local SolarisLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/An
 
    local main = win:Tab("Player")
 
-   local sec = main:Section("Modifications")
-
-   local slider = sec:Slider("Walkspeed", 1,500,16,1,"Slider", function(v)
-     game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = v
-   end)
-   local slider = sec:Slider("Jumppower", 1,1000,50,1,"Slider", function(v)
-     game.Players.LocalPlayer.Character.Humanoid.JumpPower = v
-   end)
-   local slider = sec:Slider("Gravity", 1,1000,196.2,1,"Slider", function(v)
-     game.Workspace.Gravity = v
-   end)
-
+--removed lol!
+ 
    local sec = main:Section("Extras")
    sec:Button("Respawn", function()
       loadstring(game:HttpGet("https://raw.githubusercontent.com/roburox/s1mple/main/scripts/respawn"))()
