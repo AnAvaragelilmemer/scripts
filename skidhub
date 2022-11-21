@@ -503,11 +503,12 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/AltsegoD/scripts/egoD
 end)
 
 sec:Button("Aimware", function()
-loadstring(game:HttpGet("https://pastebin.com/raw/bFEJPxpx"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/AnAvaragelilmemer/AnAvaragelilmemer/main/aimwarev1"))()
 end)
 
-sec:Button("
-
+sec:Button("FPS universal", function()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/AnAvaragelilmemer/AnAvaragelilmemer/main/fpsuniversal"))()
+end)
 --[[
 	see, its skidded, how are you beliving me its not skidded?
 	piss off
