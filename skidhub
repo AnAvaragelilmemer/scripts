@@ -3,7 +3,7 @@ repeat wait() until game:IsLoaded()
 local SolarisLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/roburox/s1mple/main/SolarisLib"))()
 
    local win = SolarisLib:New({
-     Name = "SkidHub, now with pissware",
+     Name = "SkidHub with peas",
      FolderToSave = "SkidHub"
    })
 
@@ -501,6 +501,12 @@ end)
 sec:Button("Table hub", function()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/AltsegoD/scripts/egoD/tablekhoc.lua"))()
 end)
+
+sec:Button("Aimware", function()
+loadstring(game:HttpGet("https://pastebin.com/raw/bFEJPxpx"))()
+end)
+
+sec:Button("
 
 --[[
 	see, its skidded, how are you beliving me its not skidded?
