@@ -501,6 +501,7 @@ end)
 sec:Button("Table hub", function()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/AltsegoD/scripts/egoD/tablekhoc.lua"))()
 end)
+
 --[[
 	see, its skidded, how are you beliving me its not skidded?
 	piss off
@@ -512,6 +513,7 @@ end)
 	synapse x
 	unsupported executors
 	oxygen u
+	i donno man
 ]]--
 
 
