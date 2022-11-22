@@ -502,10 +502,6 @@ sec:Button("Table hub", function()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/AltsegoD/scripts/egoD/tablekhoc.lua"))()
 end)
 
-sec:Button("Aimware", function()
-loadstring(game:HttpGet("https://raw.githubusercontent.com/AnAvaragelilmemer/AnAvaragelilmemer/main/aimwarev1"))()
-end)
-
 sec:Button("FPS universal", function()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/AnAvaragelilmemer/AnAvaragelilmemer/main/fpsuniversal"))()
 end)
