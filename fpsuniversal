@@ -6,11 +6,13 @@ local HumanoidRootPart = Character:WaitForChild("HumanoidRootPart")
 local Mouse = LocalPlayer:GetMouse()
 local RunService = game:GetService("RunService")
 local UIS = game:GetService("UserInputService")
+local Request = (syn and syn.request) or request or http_Request or (http and http.request)
 local Camera = workspace.CurrentCamera
 local CurrentTarget = nil
+local Entity
 
 local Connections = {
-	CharacterAdded = {}
+	CharacterAdded = {},
 }
 
 table.insert(Connections.CharacterAdded, LocalPlayer.CharacterAdded:Connect(function(Char)
@@ -19,6 +21,76 @@ table.insert(Connections.CharacterAdded, LocalPlayer.CharacterAdded:Connect(func
 	HumanoidRootPart = Char:WaitForChild("HumanoidRootPart")
 end))
 
+local EntityLib = {}; do
+    function EntityLib:Require(url)
+        local response = Request({
+            Url = url,
+            Method = "GET",
+        })
+        if response.StatusCode == 200 then
+            return response.Body
+        end
+    end
+    function EntityLib:Run(code)
+        local func, err = loadstring(code)
+        if not typeof(func) == 'function' then
+            return error("Failed to run code, error: " .. tostring(err))
+        end
+        return func()
+    end
+    function EntityLib:IsAlive(plr, stateCheck)
+        local _, ent
+        pcall(function()
+            if not plr then 
+                return Entity.isAlive 
+            end
+            _, ent = Entity.getEntityFromPlayer(plr)
+        end)
+        return ((not stateCheck) or ent and ent.Humanoid:GetState() ~= Enum.HumanoidStateType.Dead) and ent
+    end
+end
+local Fov = {}; do
+    local Loops = {RenderStepped = {}, Heartbeat = {}, Stepped = {}}
+    function Fov:BindToRenderStepped(id, callback)
+        if not Loops.RenderStepped[id] then
+            Loops.RenderStepped[id] = RunService.RenderStepped:Connect(callback)
+        end
+    end
+    function Fov:UnbindFromRenderStepped(id)
+        if Loops.RenderStepped[id] then
+            Loops.RenderStepped[id]:Disconnect()
+            Loops.RenderStepped[id] = nil
+        end
+    end
+    function Fov:Make()
+        local FOV = Drawing.new("Circle")
+        FOV.Visible = false
+        FOV.Thickness = 1
+        FOV.NumSides = 100
+        FOV.Radius = 100
+        FOV.Color = Color3.fromRGB(255, 255, 255)
+        FOV.Transparency = 1
+        FOV.Filled = false
+        return FOV
+    end
+    local FOV = Fov:Make()
+    function Fov:Update()
+        getgenv().FOVRadius = shared.FOVSize or 100
+        FOV.Position = Vector2.new(Mouse.X, Mouse.Y + 36)
+        FOV.Visible = true
+        FOV.Radius = FOVRadius
+    end
+    function Fov:Toggle(boolean)
+        if boolean then
+            self:BindToRenderStepped("FOV", function()
+                self:Update()
+            end)
+        else
+            self:UnbindFromRenderStepped("FOV")
+            FOV.Visible = false
+        end
+    end
+end
 local Aimbot = {}; do
 	local Loops = {RenderStepped = {}, Heartbeat = {}, Stepped = {}}
 	function Aimbot:BindToRenderStepped(id, callback)
@@ -32,12 +104,12 @@ local Aimbot = {}; do
 			Loops.RenderStepped[id] = nil
 		end
 	end
-	function Aimbot:StoreCurrentTarget(Player)
-		CurrentTarget = Player
-	end
-	function Aimbot:IfHolding()
+	function Aimbot:IsHolding()
 		return UIS:IsMouseButtonPressed(Enum.UserInputType.MouseButton2)
 	end
+    function Aimbot:StoreCurrentTarget()
+        return CurrentTarget
+    end
     function Aimbot:DistanceCheck(Player, Distance)
         shared.DistanceCheck = shared.DistanceCheck or true
         shared.Distance = shared.Distance or 100
@@ -55,9 +127,18 @@ local Aimbot = {}; do
 			return true
 		end
 	end
+    function Aimbot:VisibleCheck(Player, Toggle)
+        if Toggle then
+            local Parts = Camera:GetPartsObscuringTarget({Camera.CFrame.Position, Player.Character.HumanoidRootPart.Position}, {Player.Character})
+            return #Parts == 0
+        else
+            return true
+        end
+    end
 	function Aimbot:GetClosestPlayerToMouse()
 		local ClosestPlayer = nil
 		local ClosestPlayerDistance = math.huge
+        getgenv().VisibleCheck = shared.VisibleCheck or false
 
 		for _, Player in next, Players:GetPlayers() do
 			if Player ~= LocalPlayer and Player.Character and Player.Character:FindFirstChild("HumanoidRootPart") then
@@ -66,7 +147,7 @@ local Aimbot = {}; do
 				local Distance = (MousePoint - Vector2.new(ScreenPoint.X, ScreenPoint.Y)).Magnitude
                 local _, OnScreen = Camera:WorldToViewportPoint(Player.Character.HumanoidRootPart.Position)
 
-				if Aimbot:DistanceCheck(Player, shared.Distance) and OnScreen and Distance < ClosestPlayerDistance then
+				if Distance < ClosestPlayerDistance and OnScreen and Aimbot:DistanceCheck(Player, shared.Distance) and Aimbot:TeamCheck(Player, shared.TeamCheck) and Aimbot:VisibleCheck(Player, shared.VisibleCheck) then
 					ClosestPlayer = Player
 					ClosestPlayerDistance = Distance
 				end
@@ -78,12 +159,14 @@ local Aimbot = {}; do
     function Aimbot:GetClosestFromDistance()
         local ClosestPlayer = nil
         local ClosestPlayerDistance = math.huge
+        getgenv().VisibleCheck = shared.VisibleCheck or false
 
         for _, Player in next, Players:GetPlayers() do
             if Player ~= LocalPlayer and Player.Character and Player.Character:FindFirstChild("HumanoidRootPart") then
                 local Distance = (Player.Character.HumanoidRootPart.Position - HumanoidRootPart.Position).Magnitude
+                local _, OnScreen = Camera:WorldToViewportPoint(Player.Character.HumanoidRootPart.Position)
 
-                if Aimbot:DistanceCheck(Player, shared.Distance) and Distance < ClosestPlayerDistance then
+                if Distance < ClosestPlayerDistance and OnScreen and Aimbot:DistanceCheck(Player, shared.Distance) and Aimbot:TeamCheck(Player, shared.TeamCheck) and Aimbot:VisibleCheck(Player, shared.VisibleCheck) then
                     ClosestPlayer = Player
                     ClosestPlayerDistance = Distance
                 end
@@ -92,6 +175,48 @@ local Aimbot = {}; do
 
         return ClosestPlayer
     end
+    function Aimbot:GetClosestFromFOV()
+        local ClosestPlayer = nil
+        local ClosestPlayerDistance = math.huge
+        getgenv().VisibleCheck = shared.VisibleCheck or false
+
+        for _, Player in next, Players:GetPlayers() do
+            if Player ~= LocalPlayer and Player.Character and Player.Character:FindFirstChild("HumanoidRootPart") then
+                local ScreenPoint = Camera:WorldToViewportPoint(Player.Character.HumanoidRootPart.Position)
+                local MousePoint = Vector2.new(Mouse.X, Mouse.Y)
+                local Distance = (MousePoint - Vector2.new(ScreenPoint.X, ScreenPoint.Y)).Magnitude
+                local _, OnScreen = Camera:WorldToViewportPoint(Player.Character.HumanoidRootPart.Position)
+
+                if Distance < ClosestPlayerDistance and OnScreen and Aimbot:DistanceCheck(Player, shared.Distance) and Aimbot:TeamCheck(Player, shared.TeamCheck) and Aimbot:VisibleCheck(Player, shared.VisibleCheck) and Distance <= FOVRadius then
+                    ClosestPlayer = Player
+                    ClosestPlayerDistance = Distance
+                end
+            end
+        end
+
+        return ClosestPlayer
+    end
+    function Aimbot:GetClosestTargetPart()
+        local ClosestPart = nil
+        local ClosestPartDistance = math.huge
+        getgenv().VisibleCheck = shared.VisibleCheck or false
+
+        for _, Part in next, CurrentTarget.Character:GetDescendants() do
+            if Part:IsA("BasePart") and Part.CanCollide and Part.Name ~= "HumanoidRootPart" then
+                local ScreenPoint = Camera:WorldToViewportPoint(Part.Position)
+                local MousePoint = Vector2.new(Mouse.X, Mouse.Y)
+                local Distance = (MousePoint - Vector2.new(ScreenPoint.X, ScreenPoint.Y)).Magnitude
+                local _, OnScreen = Camera:WorldToViewportPoint(Part.Position)
+
+                if Distance < ClosestPartDistance and OnScreen and Aimbot:DistanceCheck(CurrentTarget, shared.Distance) and Aimbot:TeamCheck(CurrentTarget, shared.TeamCheck) and Aimbot:VisibleCheck(CurrentTarget, shared.VisibleCheck) then
+                    ClosestPart = Part
+                    ClosestPartDistance = Distance
+                end
+            end
+        end
+
+        return ClosestPart
+    end
     function Aimbot:DoMethod()
         shared.Method = shared.Method or "Closest To Mouse"
 
@@ -99,6 +224,8 @@ local Aimbot = {}; do
             return self:GetClosestPlayerToMouse()
         elseif shared.Method == "Distance" then
             return self:GetClosestFromDistance()
+        elseif shared.Method == "FOV" then
+            return self:GetClosestFromFOV()
         end
     end
 	Aimbot:StoreCurrentTarget(Aimbot:DoMethod())
@@ -107,27 +234,26 @@ local Aimbot = {}; do
 		getgenv().TeamCheck = shared.TeamCheck or false
         getgenv().SelectedView = shared.SelectedView or "First Person"
         getgenv().TargetPart = shared.TargetPart or "Head"
+        local GetClosest = self:DoMethod()
 
-		if CurrentTarget and CurrentTarget.Character then
-			local Vector = Camera:WorldToViewportPoint(CurrentTarget.Character:WaitForChild(TargetPart).Position)
-
-			if not self:IfHolding() then
-				self:StoreCurrentTarget(self:DoMethod())
-			elseif self:IfHolding() and self:TeamCheck(CurrentTarget, TeamCheck) then
+		if GetClosest and GetClosest.Character then
+            if self:IsHolding() and self:TeamCheck(GetClosest, TeamCheck) then
+                local Vector = Camera:WorldToViewportPoint(GetClosest.Character:WaitForChild(TargetPart).Position)
+                GetClosest = self:DoMethod()
 				if SelectedView == "First Person" and UIS.MouseBehavior == Enum.MouseBehavior.LockCenter then
-					Camera.CFrame = Camera.CFrame:Lerp(CFrame.new(Camera.CFrame.Position, CurrentTarget.Character:WaitForChild(TargetPart).Position), smooSmoothnessthness)
+					Camera.CFrame = Camera.CFrame:Lerp(CFrame.new(Camera.CFrame.Position, GetClosest.Character:WaitForChild(TargetPart).Position), Smoothness)
 				elseif SelectedView == "Third Person" and UIS.MouseBehavior == Enum.MouseBehavior.Default then
 					mousemoverel((Vector.X - Mouse.X) / 2 * Smoothness, (Vector.Y - Mouse.Y - 35) / 2 * Smoothness)
                 elseif SelectedView == "Auto" then
                     if UIS.MouseBehavior == Enum.MouseBehavior.LockCenter then
-                        Camera.CFrame = Camera.CFrame:Lerp(CFrame.new(Camera.CFrame.Position, CurrentTarget.Character:WaitForChild(TargetPart).Position), Smoothness)
+                        Camera.CFrame = Camera.CFrame:Lerp(CFrame.new(Camera.CFrame.Position, GetClosest.Character:WaitForChild(TargetPart).Position), Smoothness)
                     elseif UIS.MouseBehavior == Enum.MouseBehavior.Default then
                         mousemoverel((Vector.X - Mouse.X) / 2 * Smoothness, (Vector.Y - Mouse.Y - 35) / 2 * Smoothness)
                     end
 				end
 			end
 		else
-			self:StoreCurrentTarget(self:DoMethod())
+			GetClosest = self:DoMethod()
 		end
 	end
 	function Aimbot:Toggle(boolean)
@@ -139,6 +265,39 @@ local Aimbot = {}; do
 			self:UnbindFromRenderStepped("Aimbot")
 		end
 	end
+end
+local Triggerbot = {}; do
+    local Loops = {RenderStepped = {}, Heartbeat = {}, Stepped = {}}
+	function Triggerbot:BindToRenderStepped(id, callback)
+		if not Loops.RenderStepped[id] then
+			Loops.RenderStepped[id] = RunService.RenderStepped:Connect(callback)
+		end
+	end
+	function Triggerbot:UnbindFromRenderStepped(id)
+		if Loops.RenderStepped[id] then
+			Loops.RenderStepped[id]:Disconnect()
+			Loops.RenderStepped[id] = nil
+		end
+	end
+    function Triggerbot:TriggerBotUpdate()
+        local MouseTarget = Mouse.Target
+        getgenv().Delay = shared.Delay or .1
+
+        if MouseTarget and MouseTarget.Parent and MouseTarget.Parent:FindFirstChild("Humanoid") and MouseTarget.Parent ~= Character and UIS.MouseBehavior ~= Enum.MouseBehavior.Default then 
+            task.delay(Delay, function()
+                mouse1click()
+            end)
+        end
+    end
+    function Triggerbot:TriggerBotToggle(boolean)
+        if boolean then
+            self:BindToRenderStepped("TriggerBot", function()
+                self:TriggerBotUpdate()
+            end)
+        else
+            self:UnbindFromRenderStepped("TriggerBot")
+        end
+    end
 end
 local Esp = {}; do
     Instance.new("ScreenGui",game.CoreGui).Name = "Kaoru"
@@ -207,10 +366,41 @@ local Esp = {}; do
         end
     end
 end
+local WhiteList = {}; do
+    local WhiteListed = {}
+    function WhiteList:GetPlayers()
+        local PlayerTable = {}
+        for _, Player in next, Players:GetPlayers() do
+            if Player ~= LocalPlayer and not table.find(WhiteListed, Player) then
+                table.insert(PlayerTable, Player.Name)
+            end
+        end
+        return PlayerTable
+    end
+    function WhiteList:GetWhiteListedPlayers()
+        return WhiteListed
+    end
+    function WhiteList:AddPlayer(Player)
+        if not table.find(WhiteListed, Player) then
+            table.insert(WhiteListed, Player)
+        end
+    end
+    function WhiteList:RemovePlayer(Player)
+        if table.find(WhiteListed, Player) then
+            table.remove(WhiteListed, table.find(WhiteListed, Player))
+        end
+    end
+    function WhiteList:RemoveAll()
+        table.clear(WhiteListed)
+    end
+end
+
+Entity = EntityLib:Run(EntityLib:Require("https://raw.githubusercontent.com/7GrandDadPGN/VapeV4ForRoblox/main/Libraries/entityHandler.lua", true, true))
+Entity.fullEntityRefresh()
 
 local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Rayfield/main/source'))()
 local Window = Rayfield:CreateWindow({
-	Name = "FPS Universal",
+	Name = "FPS Universal V1.1.0",
 	LoadingTitle = "FPS Universal",
 	LoadingSubtitle = "By: Kaoru~#6438",
 	ConfigurationSaving = {
@@ -235,7 +425,7 @@ Main:CreateSection("Aimbot Settings")
 
 Main:CreateDropdown({
     Name = "Method",
-    Options = {"Closest To Mouse", "Distance"},
+    Options = {"Closest To Mouse", "Distance", "FOV"},
     CurrentOption = "Closest To Mouse",
     Callback = function(Method)
         shared.Method = Method
@@ -247,10 +437,6 @@ Main:CreateDropdown({
     Options = {
         "Head",
         "Torso",
-        "Right Arm",
-        "Left Arm",
-        "Right Leg",
-        "Left Leg"
     },
     CurrentOption = "Head",
     Callback = function(TargetPart)
@@ -307,6 +493,56 @@ Main:CreateToggle({
     end,
 })
 
+Main:CreateToggle({
+    Name = "Visible Check",
+    CurrentValue = false,
+    Callback = function(VisibleCheckToggle)
+        shared.VisibleCheck = VisibleCheckToggle
+    end,
+})
+
+Main:CreateSection("Triggerbot")
+
+Main:CreateToggle({
+    Name = "Triggerbot",
+    CurrentValue = false,
+    Callback = function(Trigger)
+        Triggerbot:TriggerBotToggle(Trigger)
+    end,
+})
+
+Main:CreateSection("Triggerbot Settings")
+
+Main:CreateSlider({
+    Name = "Delay",
+    Range = {0, 1},
+    Increment = .05,
+    CurrentValue = .1,
+    Callback = function(Delay)
+        shared.Delay = Delay
+    end,
+})
+
+Main:CreateSection("FOV")
+
+Main:CreateToggle({
+    Name = "FOV",
+    CurrentValue = false,
+    Callback = function(FOVToggle)
+        Fov:Toggle(FOVToggle)
+    end,
+})
+
+Main:CreateSlider({
+    Name = "FOV Size",
+    Range = {0, 1000},
+    Increment = 1,
+    CurrentValue = 100,
+    Callback = function(FOVSize)
+        shared.FOVSize = FOVSize
+    end,
+})
+
 Main:CreateSection("Esp")
 
 Main:CreateToggle({
@@ -326,5 +562,4 @@ Main:CreateToggle({
         shared.ESPTeamCheck = ESPTeamCheck
     end,
 })
-
---made by kaoru, https://scriptblox.com/script/Universal-Script-FPS-Universal-7170
+--made by kaoru, https://scriptblox.com/script/Universal-Script-FPS-Universal-Script-7151
