@@ -3,7 +3,7 @@ repeat wait() until game:IsLoaded()
 local SolarisLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/roburox/s1mple/main/SolarisLib"))()
 
    local win = SolarisLib:New({
-     Name = "SkidHub with peas",
+     Name = "SkidHub is no longer getting updates",
      FolderToSave = "SkidHub"
    })
 
