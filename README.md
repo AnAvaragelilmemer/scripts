@@ -1,4 +1,2 @@
-hi, am me.
-
-i skid and i hate it
-
+## owo, what this?
+this are scripts
