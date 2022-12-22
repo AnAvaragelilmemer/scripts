@@ -1,2 +1,2 @@
 ## owo, what this?
-this are scripts
+this are scripts, will organize later
