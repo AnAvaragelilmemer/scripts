@@ -1,0 +1,5 @@
+for i, v in pairs(workspace:GetDescendants()) do
+        if v:IsA('ClickDetector') and v.Parent:FindFirstChildOfClass('NumberValue') then
+            fireclickdetector(v, 3)
+        end
+    end
