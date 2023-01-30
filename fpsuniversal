@@ -562,4 +562,3 @@ Main:CreateToggle({
         shared.ESPTeamCheck = ESPTeamCheck
     end,
 })
---made by kaoru, https://scriptblox.com/script/Universal-Script-FPS-Universal-Script-7151
