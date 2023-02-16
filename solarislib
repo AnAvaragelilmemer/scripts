@@ -1,6 +1,6 @@
---[[i ctrl+v'ed this, cause am trying to make stuff]]--
+-- This User Interface Library is brought to you by Solaris Software.
 local Solaris = Instance.new("ScreenGui")
-Solaris.Name = "Window"
+Solaris.Name = "Solaris Libary Interface"
 Solaris.Parent = game.CoreGui
 Solaris.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
@@ -162,6 +162,7 @@ local SolarisLib = {
 
 
 local MainUI = game:GetObjects("rbxassetid://7835727566")[1]
+print("Solaris Loaded!")
 local function MakeDraggable(topbarobject, object) 
     pcall(function()
 		local dragging, dragInput, mousePos, framePos = false
@@ -613,11 +614,11 @@ function SolarisLib:New(Config)
         end   
         
         local general = Settings:Tab("General")
-        general:ToggleSetting("Show Music On Launch", "Shows the music menu when you load Pissware", true, "ShowMusicOnLaunch")
-        general:BindSetting("Close Bind", "Hides/Shows the main window when pressed.", Enum.KeyCode.RightControl, "CloseBind")
+        general:ToggleSetting("Show Music On Launch", "Shows the music menu when you fetch Pissware V2", true, "Show Music On Launch")
+        general:BindSetting("Close Bind", "Hides/Shows the main window when pressed.", Enum.KeyCode.RightControl, "Close Bind")
         
         local appearance = Settings:Tab("Appearance")
-        appearance:Dropdown("Theme", "The look of the user interface", {"Default", "Discord", "Red", "Green", "Blue"}, "Default", "Theme")
+        appearance:Dropdown("Theme", "The theme of the user interface", {"Default", "Discord", "Red", "Green", "Blue"}, "Default", "Theme")
 
     end 
     MusicConstructor()
@@ -720,7 +721,7 @@ function SolarisLib:New(Config)
             if SolarisLib.Flags[a] then
                 spawn(function() SolarisLib.Flags[a]:Set(b) end)
             else
-                warn("cfg loader - could not find", a ,b )
+                warn("config loader - could not find", a ,b )
             end
         end)
     end
@@ -847,7 +848,7 @@ function SolarisLib:New(Config)
 				end)
 
                 spawn(function()
-                    while wait() do
+                    while task.wait() do
                         ToggleMain.ToggleFrame.ToggleToggled.BackgroundColor3 = Toggle.Value and SolarisLib.Themes[SolarisLib.Settings.Theme].ToggleToggled or SolarisLib.Themes[SolarisLib.Settings.Theme].Toggle
                         ToggleMain.ToggleFrame.BackgroundColor3 = Toggle.Value and SolarisLib.Themes[SolarisLib.Settings.Theme].ToggleToggled or SolarisLib.Themes[SolarisLib.Settings.Theme].ToggleFrame
                         ToggleMain.BackgroundColor3 = SolarisLib.Themes[SolarisLib.Settings.Theme].Toggle
@@ -889,7 +890,7 @@ function SolarisLib:New(Config)
 				end	
 
                 spawn(function()
-                    while wait() do
+                    while task.wait() do
                        SliderMain.BackgroundColor3 = SolarisLib.Themes[SolarisLib.Settings.Theme].Slider
                        SliderMain.SliderFrame.BackgroundColor3 = SolarisLib.Themes[SolarisLib.Settings.Theme].SliderBar
                        SliderMain.SliderFrame.SliderCurrentFrame.BackgroundColor3 = SolarisLib.Themes[SolarisLib.Settings.Theme].SliderInc
