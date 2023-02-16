@@ -41,7 +41,7 @@ local home = Window:MakeTab({
 	PremiumOnly = false
 })
 
-local fps = home:addLabel("FPS: "..workspace:GetRealPhysicsFPS()) 
+local fps = home:AddLabel("FPS: "..workspace:GetRealPhysicsFPS()) 
  spawn(function() 
  while wait(1) do 
          fps:Set("FPS: "..FPS) 
@@ -50,7 +50,7 @@ local fps = home:addLabel("FPS: "..workspace:GetRealPhysicsFPS())
  end)
 
 
-local time = home:addLabel(""..os.date("%A, %B %d, %I:%M:%S %p", os.time()))
+local time = home:AddLabel(""..os.date("%A, %B %d, %I:%M:%S %p", os.time()))
 spawn(function()
 while task.wait() do
     time:Set(""..os.date("%A, %B %d, %I:%M:%S %p", os.time()))
