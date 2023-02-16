@@ -1,0 +1,73 @@
+repeat task.wait() until game:IsLoaded();
+local lplr = game.Players.LocalPlayer
+local name = lplr.Name
+local dname = lplr.DisplayName
+local workspace = game.Workspace 
+local chlplr = lplr.Character.Humanoid 
+local gravity = workspace.Gravity 
+local executor = identifyexecutor() or "???"
+local userid = lplr.UserId
+local FPS = 0 
+ local function updateFPS() 
+         FPS += 1 
+ end 
+ RunService.RenderStepped:Connect(updateFPS)
+
+
+local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
+
+local Window = OrionLib:MakeWindow({
+    Name = "Pissware : Mobile",
+    IntroEnabled = true,
+    IntroText = "Welcome to Pissware, "..dname.."!",
+    IntroIcon = "rbxassetid://6031094686"
+    HidePremium = true, 
+    SaveConfig = true, 
+    ConfigFolder = "PisswareMobile"
+})
+
+OrionLib:MakeNotification({
+	Name = "hey there!",
+	Content = "I recommend you to use a high minium width to use this script",
+	Image = "rbxassetid://4483345998",
+	Time = 20
+})
+
+
+local home = Window:MakeTab({
+	Name = "Home",
+	Icon = "rbxassetid://6026568198",
+	PremiumOnly = false
+})
+
+local fps = home:addLabel("FPS: "..workspace:GetRealPhysicsFPS()) 
+ spawn(function() 
+ while wait(1) do 
+         fps:Set("FPS: "..FPS) 
+         FPS = 0 
+ end 
+ end)
+
+
+local time = home:addLabel(""..os.date("%A, %B %d, %I:%M:%S %p", os.time()))
+spawn(function()
+while task.wait() do
+    time:Set(""..os.date("%A, %B %d, %I:%M:%S %p", os.time()))
+end
+end)
+
+
+
+home:AddLabel("Info for your roblox account")
+home:AddLabel("Name: "..name..".")
+home:AddLabel("Display name: "..dname..".")
+home:AddLabel("User id: "..userid..".")
+local Section = home:AddSection({Name = " "})
+home:AddLabel("Misc")
+home:AddLabel("Executor: "..executor)
+
+
+
+
+
+
