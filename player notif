@@ -1,7 +1,9 @@
+_G.notif = nil;
 local notifLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/Sw1ndlerScripts/RobloxScripts/main/Notification%20Library/main.lua"))()
 
 local Players = game:GetService("Players")
 
+if _G.notif then
 Players.PlayerAdded:Connect(function(player)
   notifLib:CreateDefaultNotif({
  TweenSpeed = 1,
@@ -19,6 +21,9 @@ Players.PlayerRemoving:Connect(function(player)
  Duration = 5
 })
 end)
+else
+break
+end
 
   
    
