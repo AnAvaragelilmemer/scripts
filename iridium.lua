@@ -5,6 +5,7 @@ local name = lplr.Name
 local dname = lplr.DisplayName
 local userid = lplr.UserId 
 local version = "2.7"
+local RunService = game:GetService("RunService")
 getgenv().fps = nil;
 function fpss()
 if getgenv().fps then
@@ -23,6 +24,17 @@ if getgenv().headless then
       lplr.Character.Head.face.Transparency = 0
 end
 end
+getgenv().render = nil;
+function render()
+if getgenv().render then
+    RunService:Set3dRenderingEnabled(false)
+    else
+            RunService:Set3dRenderingEnabled(true)
+end
+end
+
+
+	    
 
 local NotificationHolder = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
 local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
@@ -74,7 +86,7 @@ chlplr.JumpPower = v
 end)
 
 localplayer:Textbox("Field of view", " ", true, function(v)
-    game.Workspace.Camera.FieldOfView = V
+    game.Workspace.Camera.FieldOfView = v
 end)
 
 localplayer:Button("Reset speed, jump, FOV.", function()
@@ -114,6 +126,7 @@ Notification:Notify(
 )
 end)
 
+
 localplayer:Toggle("Fps unlock",false, function(v)
 getgenv().fps = v 
 fpss()
@@ -121,11 +134,33 @@ end)
 
 
 
-local client = Iridium:Channel("[👀] Client-Sided-Scripts")
+local client = Iridium:Channel("[👀] Misc")
 
-client:Toggle("Headless",false, function(v)
+client:Toggle("Client sided Headless",false, function(v)
 getgenv().headless = v 
 headless()
+end)
+
+client:Toggle("Enable/Disable rendering",false, function(v)
+    getgenv().render = v
+    render()
+    end)
+
+client:Button("Infinite Jump", function()
+    game:GetService("UserInputService").JumpRequest:connect(function()
+		game:GetService"Players".LocalPlayer.Character:FindFirstChildOfClass'Humanoid':ChangeState("Jumping")
+    end)
+end)
+client:Button("sit", function()
+    lplr.Character.Humanoid.Sit = true
+    end)
+
+client:Button("Fire Click Detector", function()
+    for i, v in pairs(workspace:GetDescendants()) do
+        if v:IsA('ClickDetector') and v.Parent:FindFirstChildOfClass('NumberValue') then
+            fireclickdetector(v, 3)
+        end
+    end
 end)
 
 --more soon
