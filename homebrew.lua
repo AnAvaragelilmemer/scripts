@@ -48,7 +48,8 @@ local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/
 local link = "https://raw.githubusercontent.com/dawid-scripts/UI-Libs/main/discord%20lib.txt"
 
 local Discord = loadstring(game:HttpGetAsync(link))();
-
+local settings = "https://raw.githubusercontent.com/AnAvaragelilmemer/scripts/main/toggler"
+loadstring(game:HttpGetAsync(settings))()
 local window = Discord:Window("discord")
 
 local Iridium = window:Server("Homebrew "..version, "")
