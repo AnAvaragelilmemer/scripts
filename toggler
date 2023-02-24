@@ -7,10 +7,8 @@ local w1 = library:Window("Homebrew toggler")
 w1:Button(
     "Enable",
     function()
-for i, v in pairs(game.CoreGui:GetChildren()) do
-            if v:FindFirstChild("Discord") then
-                game.CoreGui.Discord.Enabled = true
-            end
+for i, v in pairs(game.CoreGui.Discord:GetDesendants()) do
+        v.Visible = true   
         end
     end
 ) -- Text, Callback
@@ -20,10 +18,8 @@ for i, v in pairs(game.CoreGui:GetChildren()) do
 w1:Button(
     "Disable",
     function()
-for i, v in pairs(game.CoreGui:GetChildren()) do
-            if v:FindFirstChild("Discord") then
-                game.CoreGui.Discord.Enabled = false
-            end
-        end
+   for i, v in pairs(game.CoreGui.Discord:GetDesendants()) do
+        v.Visible = false   
+   end
     end
 ) -- Text, Callback
