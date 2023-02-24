@@ -9,7 +9,7 @@ w1:Toggle(
     true,
     function(toggled)
         for i,v in pairs(game.CoreGui:GetChildren()) do
-        if v.FindFirstChild("Discord") then 
+        if v:FindFirstChild("Discord") then 
         game.CoreGui.Discord.Enabled = toggled
         end
         end
