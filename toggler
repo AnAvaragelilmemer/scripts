@@ -1,0 +1,19 @@
+local library = loadstring(game.HttpGet(game, "https://raw.githubusercontent.com/bloodball/-back-ups-for-libs/main/0x"))()
+
+
+local w1 = library:Window("Homebrew toggler")
+
+w1:Toggle(
+    "enable/disable",
+    " ",
+    true,
+    function(toggled)
+        for i,v in pairs(game.CoreGui:GetChildren()) do
+        if v.FindFirstChild("Discord") then 
+        game.CoreGui.Discord.Enabled = toggled
+        end
+        end
+        
+        
+    end
+) -- Text, Flag, Enabled, Callback, Flag Location (Optional)
