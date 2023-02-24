@@ -33,8 +33,14 @@ if getgenv().render then
 end
 end
 
-
-	    
+	getgenv().infjump = nil; --reworked.
+	function infjump() 
+	        game:GetService("UserInputService").JumpRequest:connect(function()
+	    if getgenv().infjump then
+	        		game:GetService"Players".LocalPlayer.Character:FindFirstChildOfClass'Humanoid':ChangeState("Jumping")
+end
+end)
+end
 
 local NotificationHolder = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
 local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
@@ -45,7 +51,7 @@ local Discord = loadstring(game:HttpGetAsync(link))();
 
 local window = Discord:Window("discord")
 
-local Iridium = window:Server("Iridium "..version, "")
+local Iridium = window:Server("Homebrew "..version, "")
 
 local welcome = Iridium:Channel("[👋] Welcome")
 welcome:Label("Everyone welcome drmr!")
@@ -72,8 +78,14 @@ info:Label("User Id: "..userid)
 info:Label("Executor: "..identifyexecutor() or "unknown")
 info:Label("Game: "..game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name)
 
-
-
+local req = http_request or request or (syn and syn.request)
+local HS = game:GetService("HttpService")
+local response = HS:JSONDecode(
+    req({
+    Url = "https://friends.roblox.com/v1/users/"..game.Players.LocalPlayer.UserId.."/friends/count"
+})
+.Body)
+info:Label("Friends: "..response.count)
 
 local localplayer = Iridium:Channel("[🧍] Local-Player")
 
@@ -102,7 +114,7 @@ end)
 
 localplayer:Seperator()
 
-localplayer:Button("Refresh", function()
+localplayer:Button("Hard reset", function()
     lplr.Character:Destroy()
     Notification:Notify(
     {Title = "Refreshing", Description = "This wont take long, please wait..."},
@@ -146,22 +158,32 @@ client:Toggle("Enable/Disable rendering",false, function(v)
     render()
     end)
 
-client:Button("Infinite Jump", function()
-    game:GetService("UserInputService").JumpRequest:connect(function()
-		game:GetService"Players".LocalPlayer.Character:FindFirstChildOfClass'Humanoid':ChangeState("Jumping")
-    end)
+client:Toggle("Infinite jump",false, function(v)
+    getgenv().infjump = v 
+    infjump()
 end)
+
 client:Button("sit", function()
     lplr.Character.Humanoid.Sit = true
     end)
 
 client:Button("Fire Click Detector", function()
-    for i, v in pairs(workspace:GetDescendants()) do
+    for i, v in pairs(game:GetDescendants()) do
         if v:IsA('ClickDetector') and v.Parent:FindFirstChildOfClass('NumberValue') then
             fireclickdetector(v, 3)
         end
     end
 end)
+
+client:Button("Open ESP (SOON)", function()
+    Notification:Notify(
+    {Title = "Coming soon", Description = "this will be released soon."},
+    {OutlineColor = Color3.fromRGB(80, 80, 80),Time = 5, Type = "default"}
+)
+end)
+
+    
+
 
 --more soon
 
@@ -172,12 +194,44 @@ Scripts:Button("Fly gui V3", function()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/XNEOFF/FlyGuiV3/main/FlyGuiV3.txt"))()
 end)
 
-Scripts:Button("Hoho hub", function() 
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/acsu123/HOHO_H/main/Loading_UI"))()
-end)
-
 Scripts:Button("Infinite Yield", function()
     loadstring(game:HttpGet("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source"))()
     end)
     
+Scripts:Button("Keyboard", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/advxzivhsjjdhxhsidifvsh/mobkeyboard/main/main.txt", true))()
+end)
+
+Scripts:Button("Netless", function() 
+    --didnt made this
+    for i,v in next, game:GetService("Players").LocalPlayer.Character:GetDescendants() do
+if v:IsA("BasePart") and v.Name ~="HumanoidRootPart" then 
+game:GetService("RunService").Heartbeat:connect(function()
+v.Velocity = Vector3.new(-30,0,0)
+end)
+end
+end
+Notification:Notify(
+    {Title = "Hey there!", Description = "Netless is loaded, re-execute if you die."},
+    {OutlineColor = Color3.fromRGB(80, 80, 80),Time = 5, Type = "default"}
+)
+end)
+
+
+Scripts:Button("Project Bullshit V3", function()
+loadstring(game:HttpGet("https://pastebin.com/raw/uw2P2fbY", true))()
+end)
+
+Scripts:Button("Hydro hub (Hydrogen Built in)", function()
+   loadstring(game:HttpGet("https://raw.githubusercontent.com/FRX397/Hydrohub/main/Hydro_hub"))()
+end)
+
+
+
 Scripts:Label("more will come soon")
+
+
+Notification:Notify(
+    {Title = "Loaded!", Description = "Homebrew "..version.." is loaded."},
+    {OutlineColor = Color3.fromRGB(80, 80, 80),Time = 5, Type = "default"}
+)
