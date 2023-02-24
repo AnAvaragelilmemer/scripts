@@ -20,6 +20,7 @@ for i,v in pairs(game.CoreGui:GetChildren()) do
  if v:FindFirstChild("Top") then
 v:Destroy()
 end
+end
    game.CoreGui.Discord:Destroy()
     end
 ) -- Text, Callback
