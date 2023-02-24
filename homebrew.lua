@@ -1,4 +1,5 @@
 repeat task.wait() until game:IsLoaded() and game.ContentProvider.RequestQueueSize == 0;
+loadstring(game:HttpGet("https://raw.githubusercontent.com/AnAvaragelilmemer/scripts/main/toggler"))()
 local lplr = game.Players.LocalPlayer
 local chlplr = lplr.Character.Humanoid
 local name = lplr.Name
