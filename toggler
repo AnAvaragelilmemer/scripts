@@ -16,11 +16,11 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/AnAvaragelilmemer/scr
 w1:Button(
     "Destroy",
     function()
+game.CoreGui.Discord:Destroy()
 for i,v in pairs(game.CoreGui:GetChildren()) do
  if v:FindFirstChild("Top") then
 v:Destroy()
 end
 end
-   game.CoreGui.Discord:Destroy()
     end
 ) -- Text, Callback
