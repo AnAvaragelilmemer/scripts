@@ -4,7 +4,8 @@ local chlplr = lplr.Character.Humanoid
 local name = lplr.Name
 local dname = lplr.DisplayName
 local userid = lplr.UserId 
-local version = "2.7"
+local version = "2.8"
+local light = game:GetService("Lighting")
 local RunService = game:GetService("RunService")
 getgenv().fps = nil;
 function fpss()
@@ -42,6 +43,15 @@ end
 end)
 end
 
+getgenv().spinbot = nil;
+getgenv().spinspeed = math.rad(50)
+function spin()
+while getgenv().spinbot do
+task.wait()
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.Angles(0, getgenv().spinspeed, 0)
+end
+end
+
 local NotificationHolder = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
 local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
 
@@ -57,7 +67,7 @@ local Iridium = window:Server("Homebrew "..version, "")
 local welcome = Iridium:Channel("[👋] Welcome")
 welcome:Label("Everyone welcome drmr!")
 welcome:Label("man with no brin just slid into the server.") 
-welcome: Label("A wild memerboy9 appeared.")
+welcome:Label("A wild memerboy9 appeared.")
 welcome:Label("Angel just showed up!")
 welcome:Label("Welcome Bloxy, Say hi!")
 welcome:Label("Good to see you, skiddie!")
@@ -67,15 +77,17 @@ welcome:Label("Glad your here, "..dname..".")
 
 local update = Iridium:Channel("[❗️] Update-Logs")
 
+update:Label("Update 2.3, i used another method of speed")
+update:Label("organized things, added more things on #[👀] Misc, enjoy!")
+update:Label("Added anti anti cheat, this is only on one game, more will come soon!")
+update:Seperator()
 update:Label("made pissware : mobile a thing now.")
 
 local main = Iridium:Channel("————MAIN————")
 
 local info = Iridium:Channel("[❓] Info")
 
-info:Label("Name: "..name)
-info:Label("Display Name: "..dname)
-info:Label("User Id: "..userid)
+info:Label("Name: "..name.."//"..dname.."//"..userid)
 info:Label("Executor: "..identifyexecutor() or "unknown")
 info:Label("Game: "..game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name)
 
@@ -90,8 +102,10 @@ info:Label("Friends: "..response.count)
 
 local localplayer = Iridium:Channel("[🧍] Local-Player")
 
+localplayer:Label("Mobile")
+
 localplayer:Textbox("Speed", " ", true, function(v)
-chlplr.WalkSpeed = v
+TargetWalkspeed = v
 end)
 
 localplayer:Textbox("Jump", " ", true, function(v)
@@ -104,16 +118,15 @@ end)
 
 localplayer:Seperator()
 
+localplayer:Label("PC")
+
     localplayer:Slider(
     "Speed",
     1,
     1000,
     16,
     function(v)
-        chlplr.WalkSpeed = v
-		repeat task.wait() until chlplr.Health < 0.1
-        wait(6)
-		chlplr.WalkSpeed = v
+    TargetWalkspeed = v
     end
 )
 
@@ -137,7 +150,7 @@ localplayer:Seperator()
 )
 
 localplayer:Button("Reset speed, jump, FOV.", function()
-    chlplr.WalkSpeed = 16
+    TargetWalkspeed = v
     chlplr.JumpPower = 50
     game.Workspace.Camera.FieldOfView = 70
     Notification:Notify(
@@ -172,14 +185,6 @@ Notification:Notify(
     {OutlineColor = Color3.fromRGB(80, 80, 80),Time = 2, Type = "default"}
 )
 end)
-
-
-localplayer:Toggle("Fps unlock",false, function(v)
-getgenv().fps = v 
-fpss()
-end)
-
-
 
 local client = Iridium:Channel("[👀] Misc")
 
@@ -217,9 +222,58 @@ client:Button("Open ESP (SOON)", function()
 )
 end)
 
-    
+client:Button(
+    "Fps boost",
+    function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/AnAvaragelilmemer/scripts/main/fps%20booster"))()
+    end
+)
 
+client:Button(
+    "Graphic enchancer",
+    function(v)
+        loadstring(game:HttpGet("https://github.com/AnAvaragelilmemer/scripts/blob/main/graphic%20enchancer"))()
+    end
+)
 
+client:Toggle("Spinbot",false, function(v)
+    getgenv().spinbot = v 
+    spin()
+end)
+
+client:Textbox("Spinbot speed", " ", true, function(v)
+getgenv().spinspeed = math.rad(v)
+end)
+
+client:Button(
+    "Chat logger",
+    function(v)
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/AnAvaragelilmemer/scripts/main/Chat%20logger"))()
+			Notification:Notify(
+    {Title = "Sucess!", Description = "Press F9 or type /console to see log chat"},
+    {OutlineColor = Color3.fromRGB(80, 80, 80),Time = 10, Type = "default"}
+)
+    end
+)
+
+client:Toggle("Fps unlock",false, function(v)
+getgenv().fps = v 
+fpss()
+end)
+
+client:Button(
+	"FullBright",
+	function()
+	light.Ambient = Color3.new(1, 1, 1)
+    light.ColorShift_Bottom = Color3.new(1, 1, 1)
+    light.ColorShift_Top = Color3.new(1, 1, 1)
+    game.Lighting.FogEnd = 100000
+    game.Lighting.FogStart = 0
+    game.Lighting.ClockTime = 14
+    game.Lighting.Brightness = 2
+    game.Lighting.GlobalShadows = false
+	end
+)
 --more soon
 
 local Scripts = Iridium:Channel("[📜] Scripts")
@@ -273,8 +327,8 @@ Notification:Notify(
 loadstring(game:HttpGet("https://raw.githubusercontent.com/AnAvaragelilmemer/scripts/main/toggler"))()
 
 --anti anti cheats
---fe2
 
+--fe2, fe2cm, fe2 auto
 pcall(function() if game.PlaceId == 738339342 or 2198503790 or 11951199229 then 
 	game.ReplicatedStorage.Remote.ReqCharVars.OnClientInvoke = function()
 	return {}
@@ -286,4 +340,11 @@ end
 end
 end)
 
-	
+--new method of walkspeed
+game:GetService("RunService").RenderStepped:Connect(function()
+    pcall(function()
+        if game.Players.LocalPlayer.Character.Humanoid.MoveDirection.Magnitude > 0 then
+            game.Players.LocalPlayer.Character:TranslateBy(game.Players.LocalPlayer.Character.Humanoid.MoveDirection * TargetWalkspeed/100)
+        end
+    end)
+end)
