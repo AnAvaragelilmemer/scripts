@@ -1,4 +1,4 @@
-repeat task.wait() until game:IsLoaded() and game.ContentProvider.RequestQueueSize == 0;
+repeat task.wait() until game:IsLoaded() and game.ContentProvider.RequestQueueSize == 0 
 local lplr = game.Players.LocalPlayer
 local chlplr = lplr.Character.Humanoid
 local name = lplr.Name
