@@ -274,7 +274,8 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/AnAvaragelilmemer/scr
 
 --anti anti cheats
 --fe2
-if game.PlaceId == 738339342 or 2198503790 or 11951199229 then 
+
+pcall(function() if game.PlaceId == 738339342 or 2198503790 or 11951199229 then 
 	game.ReplicatedStorage.Remote.ReqCharVars.OnClientInvoke = function()
 	return {}
 end
@@ -283,6 +284,6 @@ end
     {OutlineColor = Color3.fromRGB(80, 80, 80),Time = 10, Type = "default"}
 )
 end
-
+end)
 
 	
