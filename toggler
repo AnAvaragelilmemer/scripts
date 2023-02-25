@@ -33,7 +33,7 @@ w1:Button(
 game.CoreGui.Discord:Destroy()
         for i,v in pairs(game.CoreGui:GetChildren()) do
  if v:FindFirstChild("Top") then
-v.Destroy
+v.Destroy()
 end
 end
     end
