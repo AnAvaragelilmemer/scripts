@@ -27,14 +27,3 @@ end
     end
 )
 
-w1:Button(
-    "Destroy gui",
-    function()
-game.CoreGui.Discord:Destroy()
-        for i,v in pairs(game.CoreGui:GetChildren()) do
- if v:FindFirstChild("Top") then
-v.Destroy()
-end
-end
-    end
-)
