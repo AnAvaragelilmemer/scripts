@@ -102,6 +102,40 @@ localplayer:Textbox("Field of view", " ", true, function(v)
     game.Workspace.Camera.FieldOfView = v
 end)
 
+localplayer:Seperator()
+
+    localplayer:Slider(
+    "Speed",
+    1,
+    1000,
+    16,
+    function(v)
+        chlplr.WalkSpeed = v
+		repeat task.wait() until chlplr.Health < 0.1
+        wait(6)
+		chlplr.WalkSpeed = v
+    end
+)
+
+    localplayer:Slider(
+    "Jump",
+    1,
+    1000,
+    50,
+    function(v)
+       chlplr.JumpPower = v
+    end
+)
+    localplayer:Slider(
+    "fov",
+    0,
+    120,
+    70,
+    function(v)
+       game.Workspace.Camera.FieldOfView = v
+    end
+)
+
 localplayer:Button("Reset speed, jump, FOV.", function()
     chlplr.WalkSpeed = 16
     chlplr.JumpPower = 50
@@ -237,3 +271,18 @@ Notification:Notify(
     {OutlineColor = Color3.fromRGB(80, 80, 80),Time = 5, Type = "default"}
 )
 loadstring(game:HttpGet("https://raw.githubusercontent.com/AnAvaragelilmemer/scripts/main/toggler"))()
+
+--anti anti cheats
+--fe2
+if game.PlaceId == 738339342 or 2198503790 or 11951199229 then 
+	game.ReplicatedStorage.Remote.ReqCharVars.OnClientInvoke = function()
+	return {}
+end
+	Notification:Notify(
+    {Title = "Anti cheat", Description = "Bypassed anti cheat!"},
+    {OutlineColor = Color3.fromRGB(80, 80, 80),Time = 10, Type = "default"}
+)
+end
+
+
+	
