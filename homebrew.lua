@@ -45,7 +45,7 @@ end
 local NotificationHolder = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
 local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
 
-local link = "https://raw.githubusercontent.com/dawid-scripts/UI-Libs/main/discord%20lib.txt"
+local link = "https://raw.githubusercontent.com/AnAvaragelilmemer/scripts/main/discord%20lib"
 
 local Discord = loadstring(game:HttpGetAsync(link))();
 local settings = "https://raw.githubusercontent.com/AnAvaragelilmemer/scripts/main/toggler"
