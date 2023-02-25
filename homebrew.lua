@@ -77,7 +77,7 @@ welcome:Label("Glad your here, "..dname..".")
 
 local update = Iridium:Channel("[❗️] Update-Logs")
 
-update:Label("Update 2.3, i used another method of speed")
+update:Label("Update 2.8, i used another method of speed")
 update:Label("organized things, added more things on #[👀] Misc, enjoy!")
 update:Label("Added anti anti cheat, this is only on one game, more will come soon!")
 update:Seperator()
