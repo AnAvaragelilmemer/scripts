@@ -11,7 +11,7 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/AnAvaragelilmemer/scr
 ]]
 lplr.Character.Humanoid.Health = 0 
 if #game:GetService("Players"):GetPlayers() == 1 then
-            lplr:Kick(rejoining...")
+            lplr:Kick("rejoining...")
               tpservice:Teleport(game.PlaceId)
               else            
                   tpservice:TeleportToPlaceInstance(game.PlaceId,game.JobId)
