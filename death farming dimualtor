@@ -7,7 +7,7 @@ local lplr = game.Players.LocalPlayer
 local tpservice = game:GetService("TeleportService")
 local queuetp = syn and syn.queue_on_teleport or queue_on_teleport
 queuetp[[
---loadstringhere to repeat process
+loadstring(game:HttpGet("https://raw.githubusercontent.com/AnAvaragelilmemer/scripts/main/death%20farming%20dimualtor"))()
 ]]
 lplr.Character.Humanoid.Health = 0 
 if #game:GetService("Players"):GetPlayers() == 1 then
