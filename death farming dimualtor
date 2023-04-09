@@ -7,6 +7,11 @@ local lplr = game.Players.LocalPlayer
 local tpservice = game:GetService("TeleportService")
 local queuetp = syn and syn.queue_on_teleport or queue_on_teleport
 queuetp[[
+lplr.Idled:Connect(function()
+    if true then
+                game:GetService("VirtualUser"):ClickButton2(Vector2.new())
+    end
+end)
 loadstring(game:HttpGet("https://raw.githubusercontent.com/AnAvaragelilmemer/scripts/main/death%20farming%20dimualtor"))()
 ]]
 lplr.Character.Humanoid.Health = 0 
