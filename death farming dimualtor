@@ -1,7 +1,7 @@
 
 repeat task.wait() until game:IsLoaded()
-if not game.Players.LocalPlayer.Character then
-repeat task.wait() until game.Players.LocalPlayer.Character
+if not game.Players.LocalPlayer.Character.Humanoid then
+repeat task.wait() until game.Players.LocalPlayer.Character.Humanoid
 end
 local lplr = game.Players.LocalPlayer
 local tpservice = game:GetService("TeleportService")
@@ -10,5 +10,5 @@ queuetp[[
 loadstring(game:HttpGet("https://raw.githubusercontent.com/AnAvaragelilmemer/scripts/main/death%20farming%20dimualtor"))()
 ]]
 lplr.Character.Humanoid.Health = 0 
-task.wait(1)
+task.wait()
 game:GetService("ReplicatedStorage"):WaitForChild("EntityInfo"):WaitForChild("PlayAgain"):FireServer()
