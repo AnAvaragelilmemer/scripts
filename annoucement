@@ -1,0 +1,5 @@
+game.StarterGui:SetCore("SendNotification", {
+Title = "Hi",
+Text = "i'll fix hitbox expander once the obfuscator is updated.",
+Duration = 10,
+})
