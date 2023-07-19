@@ -1,1 +1,1 @@
-return "IFuckedAStraightPersonSoHardHeBecameGay"
+return "ILikeBigBlackMenTwerkingTheirAssesOnMyDick"
