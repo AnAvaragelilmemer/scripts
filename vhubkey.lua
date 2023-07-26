@@ -1,1 +1,1 @@
-return "ILikeBigBlackMenTwerkingTheirAssesOnMyDick"
+return "JacknTheBoxPenisBurgerForOnly9.99$"
