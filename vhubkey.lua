@@ -1,1 +1,1 @@
-return "JacknTheBoxPenisBurgerForOnly9.99$"
+return "IStealSpermsInSpermBanksForMoney"
