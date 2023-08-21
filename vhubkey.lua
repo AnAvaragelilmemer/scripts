@@ -1,1 +1,1 @@
-return "IStealSpermsInSpermBanksForMoney"
+return "BigBlackCocksAreCreamyAndDelicious"
