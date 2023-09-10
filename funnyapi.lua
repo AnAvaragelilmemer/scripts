@@ -45,13 +45,20 @@ local pissware = {}
          guis = guis + 1
      warn("Pissware found!")
      game:GetService("StarterGui"):SetCore("SendNotification", { 
-         Title = "Found Pissware's GUI/Sound"; 
+         Title = "Found Pissware/Sound"; 
          Text = "Current Pissware GUIS/Sound: "..guis; 
-         Duration = 5
+         Duration = 2
          }) 
          else 
          continue 
          end 
-         end 
- end 
+end
+if guis ~= 17 then
+game:GetService("StarterGui"):SetCore("SendNotification", { 
+         Title = "Pissware Uncomplete"; 
+         Text = "There are missing GUIS in pissware (amount: "..guis.."); 
+         Duration = 5
+}) 
+end
+ end
  return pissware;
