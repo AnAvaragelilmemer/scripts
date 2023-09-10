@@ -43,11 +43,10 @@ local pissware = {}
  for i,v in pairs(game:GetService("CoreGui"):GetDescendants()) do 
          if v.Name:find("�ͪ") then
          guis = guis + 1
-     warn("Pissware found!")
      game:GetService("StarterGui"):SetCore("SendNotification", { 
          Title = "Found Pissware/Sound"; 
          Text = "Current Pissware GUIS/Sound: "..guis; 
-         Duration = 2
+         Duration = 5
          }) 
          else 
          continue 
