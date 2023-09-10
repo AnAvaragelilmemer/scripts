@@ -53,12 +53,5 @@ local pissware = {}
          continue 
          end 
 end
-if guis ~= 17 then
-game:GetService("StarterGui"):SetCore("SendNotification", { 
-         Title = "Pissware Uncomplete"; 
-         Text = "There are missing GUIS in pissware (amount: "..guis.."); 
-         Duration = 5
-}) 
-end
  end
  return pissware;
