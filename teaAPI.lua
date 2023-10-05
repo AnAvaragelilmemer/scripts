@@ -1,5 +1,6 @@
 
 getgenv().bh = {}
+local textchatservice = game:GetService("TextChatService")
 bh.service = setmetatable({},{__index = function(self,service)
     local good,bad = pcall(function() game:GetService(service) end) 
     if good then
@@ -18,5 +19,35 @@ function bh:randomstring()
         strings[i] = string.char(math.random(97,122))
     end
     return table.concat(strings)
+end
+function bh:getasset(id)
+local value = isfile(id) and getcustomasset(id) or "rbxassetid://"..id
+return value
+end
+function bh:chatcheck()
+if textchatservice.ChatVersion == Enum.ChatVersion.TextChatService then
+return true
+else
+return false
+end
+end
+function bh:chat(msg)
+if bh:chatcheck() then
+textchatservice.TextChannels.RBXGeneral:SendAsync(msg)
+else
+bh.service.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer(msg,"All")
+end
+end
+function bh.new(instance,property)
+local thing = Instance.new(instance)
+for i,v in pairs(property) do
+   thing[i] = v
+end
+return thing
+end
+function bh.fpscap(number)
+    if setfpscap then
+    setfpscap(number)
+    end
 end
 return bh
