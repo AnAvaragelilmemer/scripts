@@ -51,12 +51,13 @@ local pairs = pairs
      end 
  end
  function bh:GetPlayer(player)
-     local selectedplayer
-     for _,v in pairs(bh.service.Players:GetPlayers()) do 
-    if string.find(string.lower(v.Name),string.lower(player)) or string.find(string.lower(v.DisplayName),string.lower(player)) then
-    selectedplayer = v
+ playertotp = string.lower(v)
+    local actualplayer
+    for i,v in pairs(game.Players:GetPlayers()) do
+    if string.find(string.lower(v.Name), playertotp) or string.find(string.lower(v.DisplayName),playertotp) then
+    actualplayer = v
     end
-     end
-     return selectedplayer
+end
+return actualplayer
 end
 return bh
