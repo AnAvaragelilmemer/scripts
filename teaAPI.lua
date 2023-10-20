@@ -51,6 +51,9 @@ local pairs = pairs
      end 
  end
  function bh:GetPlayer(player)
+if player:lower():find("random") then
+return math.random(#bh.service.Players:GetPlayers())
+end
  local selectedplayer
      for _,v in pairs(bh.service.Players:GetPlayers()) do 
     if string.find(string.lower(v.Name),string.lower(player)) or string.find(string.lower(v.DisplayName),string.lower(player)) then
