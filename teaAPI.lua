@@ -52,7 +52,7 @@ local pairs = pairs
  end
  function bh:GetPlayer(player)
 if player:lower():find("random") then
-return bh.service.Players:GetPlayers()[math.random(#bh.service.Players:GetPlayers())]
+return bh.service.Players:GetPlayers()[math.random(1,#bh.service.Players:GetPlayers())]
 end
  local selectedplayer
      for _,v in pairs(bh.service.Players:GetPlayers()) do 
