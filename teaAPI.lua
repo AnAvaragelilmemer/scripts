@@ -53,7 +53,7 @@ local pairs = pairs
  function bh:GetPlayer(player)
      local selectedplayer
      for _,v in pairs(bh.service.Players:GetPlayers()) do 
-    if string.find(string.lower(v.Name),player) or string.find(string.lower(v.DisplayName),player) then
+    if string.find(string.lower(v.Name),string.lower(player)) or string.find(string.lower(v.DisplayName),string.lower(player)) then
     selectedplayer = v
     end
      end
