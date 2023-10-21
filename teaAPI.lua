@@ -13,9 +13,10 @@ local pairs = pairs
  function bh:connect(signal,event) 
    return signal:Connect(event) 
  end 
- function bh:randomstring() 
+ function bh:randomstring(length)
+local amount = length or 10
      local strings = {} 
-     for i=1,10 do 
+     for i=1,amount do 
          strings[i] = string.char(math.random(97,122)) 
      end 
      return table.concat(strings) 
