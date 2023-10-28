@@ -84,7 +84,7 @@ end
 function bh:Teleport(CFrame)
 game.Players.LocalPlayer.Character.HumanoidRootPart = CFrame
 end
-function lerp(cframe,time,duration)
+function bh:LTeleport(cframe,time,duration)
 local timer = tick()
 local whentostop = duration or 0.5
 repeat task.wait()
