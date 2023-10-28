@@ -78,4 +78,17 @@ else
 return false
 end
 end
+function bh:TweenTeleport(cframe,time) 
+game:GetService("TweenService"):Create(game.Players.LocalPlayer.Character.HumanoidRootPart, TweenInfo.new(time), {CFrame = cframe}):Play() 
+end
+function bh:Teleport(CFrame)
+game.Players.LocalPlayer.Character.HumanoidRootPart = CFrame
+end
+function lerp(cframe,time,duration)
+local timer = tick()
+local whentostop = duration or 0.5
+repeat task.wait()
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame:Lerp(cframe,time)
+until tick()-timer > whentostop
+end
 return bh
