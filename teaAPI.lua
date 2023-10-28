@@ -1,5 +1,6 @@
 getgenv().bh = {} 
 local textchatservice = game:GetService("TextChatService")
+local isusermobile = game.Players.LocalPlayer.PlayerGui:FindFirstChild("TouchGui")
 local pairs = pairs
  bh.service = setmetatable({},{__index = function(self,service) 
      local good,bad = pcall(function() game:GetService(service) end)  
@@ -62,5 +63,19 @@ end
     end
      end
      return selectedplayer
+end
+function bh:GetDevice()
+if isusermobile then
+return "Mobile"
+else
+return "PC"
+end
+end
+function bh:IsUserMobile()
+if isusermobile then
+return true
+else
+return false
+end
 end
 return bh
