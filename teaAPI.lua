@@ -82,7 +82,7 @@ function bh:TweenTeleport(cframe,time)
 game:GetService("TweenService"):Create(game.Players.LocalPlayer.Character.HumanoidRootPart, TweenInfo.new(time), {CFrame = cframe}):Play() 
 end
 function bh:Teleport(CFrame)
-game.Players.LocalPlayer.Character.HumanoidRootPart = CFrame
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame
 end
 function bh:LTeleport(cframe,time,duration)
 local timer = tick()
