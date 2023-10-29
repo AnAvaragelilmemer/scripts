@@ -25,9 +25,12 @@ local amount = length or 10
      return table.concat(strings) 
  end 
  function bh:getasset(id) 
- local value = isfile(id) and getcustomasset(id) or "rbxassetid://"..id
- return value 
- end 
+if isfile(id) then
+return getcustomasset(id)
+else
+return "rbxassetid://"..id
+end
+end 
  function bh:chatcheck() 
  if textchatservice.ChatVersion == Enum.ChatVersion.TextChatService then 
  return true 
