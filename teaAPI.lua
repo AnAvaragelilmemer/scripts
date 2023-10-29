@@ -1,6 +1,8 @@
 getgenv().bh = {} 
 local textchatservice = game:GetService("TextChatService")
 local isusermobile = game.Players.LocalPlayer.PlayerGui:FindFirstChild("TouchGui")
+local HttpService = game:GetService("HttpService")
+local Request = http_request or request or (syn and syn.request)
 local pairs = pairs
  bh.service = setmetatable({},{__index = function(self,service) 
      local good,bad = pcall(function() game:GetService(service) end)  
@@ -90,5 +92,9 @@ local whentostop = duration or 0.5
 repeat task.wait()
 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame:Lerp(cframe,time)
 until tick()-timer > whentostop
+end
+function bh:GetPlaceUID()
+    local the = HttpService:JSONDecode(Request({Url = "https://apis.roblox.com/universes/v1/places/"..game.PlaceId.."/universe"}).Body)
+    return the.universeId
 end
 return bh
