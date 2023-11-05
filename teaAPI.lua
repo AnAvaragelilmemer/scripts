@@ -1,4 +1,4 @@
-7getgenv().bh = {} 
+getgenv().bh = {} 
 local textchatservice = game:GetService("TextChatService")
 local isusermobile = game.Players.LocalPlayer.PlayerGui:FindFirstChild("TouchGui")
 local HttpService = game:GetService("HttpService")
