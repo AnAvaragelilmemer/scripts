@@ -1,4 +1,4 @@
-getgenv().bh = {} 
+7getgenv().bh = {} 
 local textchatservice = game:GetService("TextChatService")
 local isusermobile = game.Players.LocalPlayer.PlayerGui:FindFirstChild("TouchGui")
 local HttpService = game:GetService("HttpService")
@@ -100,7 +100,5 @@ function bh:GetPlaceUID()
     local the = HttpService:JSONDecode(Request({Url = "https://apis.roblox.com/universes/v1/places/"..game.PlaceId.."/universe"}).Body)
     return the.universeId
 end
-function bh:Load(link)
-return loadstring(game:HttpGet(link))()
-end
+
 return bh
