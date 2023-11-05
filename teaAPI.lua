@@ -100,7 +100,7 @@ function bh:GetPlaceUID()
     local the = HttpService:JSONDecode(Request({Url = "https://apis.roblox.com/universes/v1/places/"..game.PlaceId.."/universe"}).Body)
     return the.universeId
 end
-function bh:LoadAsync(link)
-loadstring(game:HttpGetAsync(link))()
+function bh:Load(link)
+loadstring(game:HttpGet(link))()
 end
 return bh
