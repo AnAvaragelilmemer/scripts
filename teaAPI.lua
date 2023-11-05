@@ -101,6 +101,6 @@ function bh:GetPlaceUID()
     return the.universeId
 end
 function bh:Load(link)
-loadstring(game:HttpGet(link))()
+return loadstring(game:HttpGet(link))()
 end
 return bh
