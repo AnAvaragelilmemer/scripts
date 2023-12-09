@@ -821,7 +821,7 @@ local assets = {
 	}
 local Orion = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
 local Window = Orion:MakeWindow({Name = "Fluent Icons", HidePremium = false, SaveConfig = false, ConfigFolder = "FluentIcons",IntroText="Fluent Icons",IntroIcon = "rbxassetid://10709791130"})
-for i,v in ipairs(assets) do
+for i,v in pairs(assets) do
 local Tab = Window:MakeTab({
 	Name = string.sub(i,8,30),
 	Icon = v,
