@@ -4,7 +4,7 @@ local isusermobile = game.Players.LocalPlayer.PlayerGui:FindFirstChild("TouchGui
 local HttpService = game:GetService("HttpService")
 local Request = http_request or request or (syn and syn.request)
 local pairs = pairs
- bh.service = setmetatable({},{__index = function(self,service) 
+bh.service = setmetatable({},{__index = function(self,service) 
      local good,bad = pcall(function() game:GetService(service) end)  
      if good then 
      return game:GetService(service) 
@@ -12,7 +12,7 @@ local pairs = pairs
      return 
      end 
      end 
- }) 
+}) 
  function bh:connect(signal,event) 
    return signal:Connect(event) 
  end 
@@ -96,8 +96,9 @@ repeat task.wait()
 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame:Lerp(cframe,time)
 until tick()-timer > whentostop
 end
-function bh:GetPlaceUID()
-    local the = HttpService:JSONDecode(Request({Url = "https://apis.roblox.com/universes/v1/places/"..game.PlaceId.."/universe"}).Body)
+function bh:GetPlaceUID(placeid)
+local id = placeid or game.PlaceId
+    local the = HttpService:JSONDecode(Request({Url = "https://apis.roblox.com/universes/v1/places/"..id.."/universe"}).Body)
     return the.universeId
 end
 
