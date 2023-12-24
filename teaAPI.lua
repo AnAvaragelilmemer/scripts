@@ -1,6 +1,5 @@
 getgenv().frameworker = {} 
 local frameworker_cache = {}
-local time = tick()
 frameworker.service = setmetatable({},{__index = function(self,service)
     if frameworker_cache[service] then
         return frameworker_cache[service]
@@ -57,10 +56,10 @@ function frameworker.fpscap(number)
 end
 function frameworker:GetPlayer(player)
 if player:lower():find("random") then
-return frameworker.service.Players:GetPlayers()[math.random(1,#frameworker.service.Players:GetPlayers())]
+return services.Players:GetPlayers()[math.random(1,#frameworker.service.Players:GetPlayers())]
 end
  local selectedplayer
-     for _,v in next, frameworker.service.Players:GetPlayers() do 
+     for _,v in next, services.Players:GetPlayers() do 
     if string.find(string.lower(v.Name),string.lower(player)) or string.find(string.lower(v.DisplayName),string.lower(player)) then
     selectedplayer = v
     end
@@ -96,7 +95,7 @@ until tick()-timer > whentostop
 end
 function frameworker:GetPlaceUID(placeid)
 local id = placeid or game.PlaceId
-    local the = service.HttpService:JSONDecode(http_request({Url = "https://apis.roblox.com/universes/v1/places/"..id.."/universe"}).Body)
+    local the = services.HttpService:JSONDecode(http_request({Url = "https://apis.roblox.com/universes/v1/places/"..id.."/universe"}).Body)
     return the.universeId
 end
 return frameworker
