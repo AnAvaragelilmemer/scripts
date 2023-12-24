@@ -1,105 +1,102 @@
-getgenv().bh = {} 
-local textchatservice = game:GetService("TextChatService")
-local isusermobile = game.Players.LocalPlayer.PlayerGui:FindFirstChild("TouchGui")
-local HttpService = game:GetService("HttpService")
-local Request = http_request or request or (syn and syn.request)
-local pairs = pairs
-bh.service = setmetatable({},{__index = function(self,service) 
-     local good,bad = pcall(function() game:GetService(service) end)  
-     if good then 
-     return game:GetService(service) 
+getgenv().frameworker = {} 
+local frameworker_cache = {}
+local time = tick()
+frameworker.service = setmetatable({},{__index = function(self,service)
+    if frameworker_cache[service] then
+        return frameworker_cache[service]
+    end
+    local good,result = pcall(function() game:GetService(service) end)  
+    if good then
+    frameworker_cache[service] = result
+     return game:GetService(service)
      else 
-     return 
-     end 
-     end 
-}) 
- function bh:connect(signal,event) 
+     return  
+    end 
+  end 
+})
+local services = frameworker.service
+function frameworker:connect(signal,event) 
    return signal:Connect(event) 
- end 
- function bh:randomstring(length)
+end 
+function frameworker:randomstring(length)
 local amount = length or 10
      local strings = {} 
      for i=1,amount do 
          strings[i] = string.char(math.random(97,122)) 
      end 
      return table.concat(strings) 
- end 
- function bh:getasset(id) 
-if isfile(id) then
-return getcustomasset(id)
-else
-return "rbxassetid://"..id
 end
+function frameworker:getasset(id) 
+return (isfile(id) and getcustomasset(id)) or "rbxassetid://"..id
 end 
- function bh:chatcheck() 
- if textchatservice.ChatVersion == Enum.ChatVersion.TextChatService then 
+function frameworker:chatcheck() 
+if services.TextChatService.ChatVersion == Enum.ChatVersion.TextChatService then 
  return true 
  else 
  return false 
  end 
- end 
- function bh:chat(msg) 
- if bh:chatcheck() then 
- textchatservice.TextChannels.RBXGeneral:SendAsync(msg) 
+end 
+function frameworker:chat(msg) 
+ if frameworker:chatcheck() then 
+ services.TextChatService.TextChannels.RBXGeneral:SendAsync(msg) 
  else 
- bh.service.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer(msg,"All") 
+ services.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer(msg,"All") 
  end 
- end 
- function bh.new(instance,property) 
+end 
+ function frameworker.new(instance,property) 
  local thing = Instance.new(instance) 
  for i,v in pairs(property) do 
     thing[i] = v 
  end 
  return thing 
  end 
- function bh.fpscap(number) 
+function frameworker.fpscap(number) 
      if setfpscap then 
      setfpscap(number) 
      end 
- end
- function bh:GetPlayer(player)
+end
+function frameworker:GetPlayer(player)
 if player:lower():find("random") then
-return bh.service.Players:GetPlayers()[math.random(1,#bh.service.Players:GetPlayers())]
+return frameworker.service.Players:GetPlayers()[math.random(1,#frameworker.service.Players:GetPlayers())]
 end
  local selectedplayer
-     for _,v in pairs(bh.service.Players:GetPlayers()) do 
+     for _,v in next, frameworker.service.Players:GetPlayers() do 
     if string.find(string.lower(v.Name),string.lower(player)) or string.find(string.lower(v.DisplayName),string.lower(player)) then
     selectedplayer = v
     end
      end
      return selectedplayer
 end
-function bh:GetDevice()
-if isusermobile then
+function frameworker:GetDevice()
+if services.Players.LocalPlayer.PlayerGui:FindFirstChild("TouchGui") then
 return "Mobile"
 else
 return "PC"
 end
 end
-function bh:IsUserMobile()
-if isusermobile then
+function frameworker:IsUserMobile()
+if services.Players.LocalPlayer.PlayerGui:FindFirstChild("TouchGui") then
 return true
 else
 return false
 end
 end
-function bh:TweenTeleport(cframe,time) 
-game:GetService("TweenService"):Create(game.Players.LocalPlayer.Character.HumanoidRootPart, TweenInfo.new(time), {CFrame = cframe}):Play() 
+function frameworker:TweenTeleport(cframe,time) 
+services.TweenService:Create(services.Players.LocalPlayer.Character.HumanoidRootPart, TweenInfo.new(time), {CFrame = cframe}):Play() 
 end
-function bh:Teleport(CFrame)
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame
+function frameworker:Teleport(CFrame)
+services.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame
 end
-function bh:LTeleport(cframe,time,duration)
+function frameworker:LTeleport(cframe,time,duration)
 local timer = tick()
 local whentostop = duration or 0.5
 repeat task.wait()
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame:Lerp(cframe,time)
+services.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = services.Players.LocalPlayer.Character.HumanoidRootPart.CFrame:Lerp(cframe,time)
 until tick()-timer > whentostop
 end
-function bh:GetPlaceUID(placeid)
+function frameworker:GetPlaceUID(placeid)
 local id = placeid or game.PlaceId
-    local the = HttpService:JSONDecode(Request({Url = "https://apis.roblox.com/universes/v1/places/"..id.."/universe"}).Body)
+    local the = service.HttpService:JSONDecode(http_request({Url = "https://apis.roblox.com/universes/v1/places/"..id.."/universe"}).Body)
     return the.universeId
 end
-
-return bh
+return frameworker
