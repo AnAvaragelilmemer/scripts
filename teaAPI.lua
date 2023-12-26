@@ -6,7 +6,7 @@ frameworker.service = setmetatable({},{__index = function(self,service)
     end
     local good,result = pcall(function() game:GetService(service) end)  
     if good then
-    frameworker_cache[service] = result
+    frameworker_cache[service] = game:GetService(service)
      return game:GetService(service)
      else 
      return  
