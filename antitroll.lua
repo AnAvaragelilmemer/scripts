@@ -11,7 +11,7 @@ metatable.__namecall = function(self,url,...)
 local method = getnamecallmethod()
 if (method == "HttpGet" or method == "HttpGetAsync") and self == game and table.find(byfrontrolls,url) then 
     print("fuck "..url.." one more byfron troll and am going insane")
-    return nil
+    return "https://github.com/AnAvaragelilmemer/scripts/blob/main/printhelloworld?raw=true"
 end
 return oldnamecall(self,url,...)
 end
